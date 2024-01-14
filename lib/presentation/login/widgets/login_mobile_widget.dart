@@ -31,9 +31,10 @@ class _LoginMobileWidgetState extends State<LoginMobileWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           children: [
             Text(
@@ -56,22 +57,24 @@ class _LoginMobileWidgetState extends State<LoginMobileWidget> {
             ),
           ],
         ),
-        ValueListenableBuilder(
-          valueListenable: textEditingController,
-          builder: (context, value, child) {
-            return Align(
-              alignment: const Alignment(0.0, 0.8),
-              child: SizedBox(
-                height: AppConstants.buttonHeight,
-                width: double.infinity,
-                child: ButtonWidget(
-                  buttonText: widget.buttonText,
-                  isEnabled: value.text.length == 10,
-                  onTapEvent: widget.onTapEvent,
-                ),
-              ),
-            );
-          },
+        Expanded(
+          child: Align(
+            alignment: const Alignment(0.0, 0.9),
+            child: ValueListenableBuilder(
+              valueListenable: textEditingController,
+              builder: (context, value, child) {
+                return SizedBox(
+                  height: AppConstants.buttonHeight,
+                  width: double.infinity,
+                  child: ButtonWidget(
+                    buttonText: widget.buttonText,
+                    isEnabled: value.text.length == 10,
+                    onTapEvent: widget.onTapEvent,
+                  ),
+                );
+              },
+            ),
+          ),
         ),
       ],
     );

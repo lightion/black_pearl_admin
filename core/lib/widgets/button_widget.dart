@@ -31,10 +31,12 @@ class _ButtonWidgetState extends State<ButtonWidget> {
         MaterialStateProperty.resolveWith<Color>(_getBackgroundColor);
 
     final buttonStyle = ButtonStyle(
+      shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(18.0),
+      )),
       backgroundColor: backgroundColor,
       foregroundColor: foregroundColor,
     );
-
     return ElevatedButton(
       style: buttonStyle,
       onPressed: widget.isEnabled ? widget.onTapEvent : null,
