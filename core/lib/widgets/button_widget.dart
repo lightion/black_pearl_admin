@@ -7,7 +7,7 @@ class ButtonWidget extends StatefulWidget {
   final String buttonText;
   final bool isEnabled;
   final VoidCallback onTapEvent;
-  final Icon? followIcon;
+  final String? followIcon;
 
   const ButtonWidget({
     required this.buttonText,
@@ -31,7 +31,8 @@ class _ButtonWidgetState extends State<ButtonWidget> {
         MaterialStateProperty.resolveWith<Color>(_getBackgroundColor);
 
     final buttonStyle = ButtonStyle(
-      shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(18.0),
       )),
       backgroundColor: backgroundColor,
@@ -40,9 +41,26 @@ class _ButtonWidgetState extends State<ButtonWidget> {
     return ElevatedButton(
       style: buttonStyle,
       onPressed: widget.isEnabled ? widget.onTapEvent : null,
-      child: Text(
-        widget.buttonText,
-        style: Styles.h5w400,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Center(
+              child: Text(
+                widget.buttonText,
+                style: Styles.h5w400,
+              ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              (widget.isEnabled && widget.followIcon != null)
+                  ? InkResponse(child: Image.asset(widget.followIcon ?? "", width: 30, height: 30,))
+                  : Container(),
+            ],
+          ),
+        ],
       ),
     );
   }

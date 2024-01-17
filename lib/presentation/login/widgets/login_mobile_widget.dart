@@ -1,6 +1,7 @@
 import 'package:core/constants/app_constants.dart';
 import 'package:core/constants/string_constants.dart';
 import 'package:core/theme/styles.dart';
+import 'package:core/utils/asset_image_path_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:core/widgets/button_widget.dart';
 
@@ -70,6 +71,7 @@ class _LoginMobileWidgetState extends State<LoginMobileWidget> {
                     buttonText: widget.buttonText,
                     isEnabled: value.text.length == 10,
                     onTapEvent: widget.onTapEvent,
+                    followIcon: AssetImagePath.loginButtonIcon,
                   ),
                 );
               },

@@ -1,4 +1,6 @@
+import 'package:beamer/beamer.dart';
 import 'package:black_pearl/presentation/login/widgets/login_mobile_widget.dart';
+import 'package:black_pearl/presentation/routes/app_route_name.dart';
 import 'package:core/constants/app_constants.dart';
 import 'package:core/constants/string_constants.dart';
 import 'package:core/utils/size_calculator.dart';
@@ -48,7 +50,9 @@ class LoginScreen extends StatelessWidget {
               padding: const EdgeInsets.only(top: 25, left: 16, right: 16),
               child: LoginMobileWidget(
                 buttonText: "Continue",
-                onTapEvent: () {},
+                onTapEvent: () {
+                  context.beamToNamed(AppRouteName.loginVerification);
+                },
               ),
             ),
           ),
