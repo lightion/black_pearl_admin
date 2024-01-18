@@ -1,6 +1,6 @@
 # black_pearl
 
-Application for restraunts with every day changing menu
+Application for restaurants with every day changing menu
 
 ## Getting Started
 
