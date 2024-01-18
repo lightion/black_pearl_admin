@@ -32,7 +32,8 @@ class _LoginVerificationScreenState extends State<LoginVerificationScreen> {
             Beamer.of(context).beamBack();
           },
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
+        hideAppBar: true,
       ),
       body: Column(
         children: [

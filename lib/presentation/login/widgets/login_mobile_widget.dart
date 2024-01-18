@@ -60,21 +60,24 @@ class _LoginMobileWidgetState extends State<LoginMobileWidget> {
         ),
         Expanded(
           child: Align(
-            alignment: const Alignment(0.0, 0.9),
-            child: ValueListenableBuilder(
-              valueListenable: textEditingController,
-              builder: (context, value, child) {
-                return SizedBox(
-                  height: AppConstants.buttonHeight,
-                  width: double.infinity,
-                  child: ButtonWidget(
-                    buttonText: widget.buttonText,
-                    isEnabled: value.text.length == 10,
-                    onTapEvent: widget.onTapEvent,
-                    followIcon: AssetImagePath.loginButtonIcon,
-                  ),
-                );
-              },
+            alignment: const Alignment(0.0, 0.8),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ValueListenableBuilder(
+                valueListenable: textEditingController,
+                builder: (context, value, child) {
+                  return SizedBox(
+                    height: AppConstants.buttonHeight,
+                    width: double.infinity,
+                    child: ButtonWidget(
+                      buttonText: widget.buttonText,
+                      isEnabled: value.text.length == 10,
+                      onTapEvent: widget.onTapEvent,
+                      followIcon: AssetImagePath.loginButtonIcon,
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         ),
