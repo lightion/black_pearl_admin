@@ -5,7 +5,7 @@ class SizeCalculator {
     return MediaQuery.of(context).size.height;
   }
 
-  static double getDeviceWidth(BuildContext context ) {
+  static double getDeviceWidth(BuildContext context) {
     return MediaQuery.of(context).size.width;
   }
 }

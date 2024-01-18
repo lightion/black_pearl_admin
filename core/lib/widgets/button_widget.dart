@@ -56,7 +56,12 @@ class _ButtonWidgetState extends State<ButtonWidget> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               (widget.isEnabled && widget.followIcon != null)
-                  ? InkResponse(child: Image.asset(widget.followIcon ?? "", width: 30, height: 30,))
+                  ? InkResponse(
+                      child: Image.asset(
+                      widget.followIcon ?? "",
+                      width: 30,
+                      height: 30,
+                    ))
                   : Container(),
             ],
           ),

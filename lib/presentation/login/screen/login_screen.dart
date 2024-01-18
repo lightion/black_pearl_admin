@@ -19,31 +19,31 @@ class LoginScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           //TODO: Add Logo for the application
-         const Expanded(
-           flex: 3,
-           child: Column(
-             mainAxisAlignment: MainAxisAlignment.end,
-             children: [
-               Padding(
-                 padding: EdgeInsets.only(bottom: 27.0),
-                 child: CircleAvatar(
-                   radius: AppConstants.loginLogoRadius,
-                   backgroundImage: NetworkImage(
-                       'https://masterbundles.com/wp-content/uploads/2023/03/reestaurent-ai-676.jpg'),
-                 ),
-               ),
-               Row(
-                 mainAxisAlignment: MainAxisAlignment.center,
-                 children: [
-                   Text(
-                     StringConstants.logInTitle,
-                     style: Styles.h2w700,
-                   ),
-                 ],
-               ),
-             ],
-           ),
-         ),
+          const Expanded(
+            flex: 3,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(bottom: 27.0),
+                  child: CircleAvatar(
+                    radius: AppConstants.loginLogoRadius,
+                    backgroundImage: NetworkImage(
+                        'https://masterbundles.com/wp-content/uploads/2023/03/reestaurent-ai-676.jpg'),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      StringConstants.logInTitle,
+                      style: Styles.h2w700,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
           Expanded(
             flex: 4,
             child: Padding(
