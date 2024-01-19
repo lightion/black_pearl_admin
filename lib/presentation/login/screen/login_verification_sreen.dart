@@ -7,6 +7,8 @@ import 'package:core/widgets/button_widget.dart';
 import 'package:core/widgets/timer_widget.dart';
 import 'package:flutter/material.dart';
 
+import '../../routes/app_route_name.dart';
+
 class LoginVerificationScreen extends StatefulWidget {
   const LoginVerificationScreen({super.key});
 
@@ -49,7 +51,9 @@ class _LoginVerificationScreenState extends State<LoginVerificationScreen> {
               child: ButtonWidget(
                 buttonText: "Submit",
                 isEnabled: enableButton,
-                onTapEvent: () {},
+                onTapEvent: () {
+                  context.beamToNamed(AppRouteName.home);
+                },
                 followIcon: AssetImagePath.arrowRightWhiteIcon,
               ),
             ),

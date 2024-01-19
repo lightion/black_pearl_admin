@@ -7,4 +7,6 @@ class AppConstants {
   static const double eight = 8.0;
   static const double thirtyFive = 35.0;
   static const double ten = 10.0;
+
+  static int indexPage = 0;
 }
