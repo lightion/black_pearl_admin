@@ -8,6 +8,7 @@ class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
   final Widget? leading;
   final List<Widget>? actionList;
   final bool? centerTitle;
+  final bool? hideAppBar;
   final Color? backgroundColor;
 
   AppBarWidget({
@@ -15,6 +16,7 @@ class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
     this.leading,
     this.actionList,
     this.centerTitle,
+    this.hideAppBar,
     this.backgroundColor,
   }) : super(key: Key(message));
 
@@ -41,9 +43,9 @@ class _AppBarWidgetState extends State<AppBarWidget> {
           leadingWidth: AppConstants.thirtyFive,
           actions: widget.actionList,
           toolbarHeight: AppConstants.appBarHeight,
-          backgroundColor: widget.backgroundColor ?? ColorConstants.white,
+          backgroundColor: widget.backgroundColor ?? Colors.transparent,
           centerTitle: widget.centerTitle ?? true,
-          elevation: AppConstants.ten,
+          elevation: widget.hideAppBar ?? false ? 0 : AppConstants.ten,
         )
       ],
     );
