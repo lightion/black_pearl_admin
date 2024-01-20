@@ -1,4 +1,5 @@
 import 'package:beamer/beamer.dart';
+import 'package:black_pearl/presentation/dashboard/home/screen/home_menu_upload_screen.dart';
 import 'package:black_pearl/presentation/dashboard/screen/dashboard_screen.dart';
 import 'package:black_pearl/presentation/login/screen/login_screen.dart';
 import 'package:black_pearl/presentation/login/screen/login_verification_sreen.dart';
@@ -17,6 +18,9 @@ class RouteDelegator {
         },
         AppRouteName.home: (context, state, data) {
           return const DashboardScreen();
+        },
+        AppRouteName.homeMenu: (context, state, data) {
+          return const HomeMenuScreen();
         }
       },
     ),

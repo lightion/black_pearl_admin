@@ -54,6 +54,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
         appBar: AppBarWidget(
           message: "",
           backgroundColor: ColorConstants.white,
+          leading: const CircleAvatar(
+            radius: 16,
+            backgroundImage: NetworkImage(
+              'https://masterbundles.com/wp-content/uploads/2023/03/reestaurent-ai-676.jpg',
+            ),
+          ),
         ),
         body: Center(
           child: _widgetOption.elementAt(AppConstants.indexPage),

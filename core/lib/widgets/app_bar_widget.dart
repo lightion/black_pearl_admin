@@ -36,13 +36,16 @@ class _AppBarWidgetState extends State<AppBarWidget> {
           title: Text(
             widget.message,
           ),
-          leading: widget.leading ??
-              Container(
-                margin: const EdgeInsets.only(left: AppConstants.eight),
-              ),
-          leadingWidth: AppConstants.thirtyFive,
+          leading: Transform.translate(
+            offset: const Offset(15, 0),
+            child: widget.leading ??
+                Container(
+                  margin: const EdgeInsets.only(left: AppConstants.eight),
+                ),
+          ),
           actions: widget.actionList,
           toolbarHeight: AppConstants.appBarHeight,
+          leadingWidth: 50,
           backgroundColor: widget.backgroundColor ?? Colors.transparent,
           centerTitle: widget.centerTitle ?? true,
           elevation: widget.hideAppBar ?? false ? 0 : AppConstants.ten,
