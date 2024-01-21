@@ -1,7 +1,9 @@
-import 'dart:ui';
+import 'package:flutter/material.dart';
 
 class ColorConstants {
+  static const transparent = Colors.transparent;
   static const black = Color(0xFF000000);
+  static const black80 = Color(0x80000000);
   static const white = Color(0xFFFFFFFF);
   static const antiFlashWhite = Color(0xFFF3F5F6);
   static const stateBlue = Color(0xFF6A5AE0);

@@ -47,6 +47,7 @@ dependencies:
   internet_connection_checker: ^1.0.0+1
   equatable: ^2.0.5
   chopper_generator: ^7.0.7
+  image_picker: ^1.0.7
 
 dev_dependencies:
   flutter_test:
