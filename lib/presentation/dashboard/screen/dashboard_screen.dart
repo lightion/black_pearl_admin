@@ -61,9 +61,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
           ),
         ),
-        body: Center(
-          child: _widgetOption.elementAt(AppConstants.indexPage),
-        ),
+        body: _widgetOption.elementAt(AppConstants.indexPage),
         bottomNavigationBar: BottomNavigationBar(
           items: _bottomNavigationBarItem,
           currentIndex: AppConstants.indexPage,
