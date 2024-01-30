@@ -7,6 +7,7 @@ import 'package:core/theme/color_constants.dart';
 import 'package:core/theme/styles.dart';
 import 'package:core/widgets/app_bar_widget.dart';
 import 'package:core/widgets/loading_overlay_widget.dart';
+import 'package:core/widgets/outlined_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -70,22 +71,9 @@ class _HomeMenuScreenState extends State<HomeMenuScreen> {
                       margin: const EdgeInsets.only(left: 8, right: 8),
                       width: double.infinity,
                       height: AppConstants.buttonHeight,
-                      child: OutlinedButton(
-                        onPressed: () {
-                          bloc.add(HomeMenuImagePickerClickedEvent());
-                        },
-                        style: OutlinedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          side: const BorderSide(
-                              color: ColorConstants.electricBlue),
-                        ),
-                        child: Text(
-                          "Select From Gallery",
-                          textAlign: TextAlign.center,
-                          style: Styles.h5w600.merge(const TextStyle(
-                            color: ColorConstants.electricBlue,
-                          )),
-                        ),
+                      child: OutlinedButtonWidget(
+                        onTapEvent: () { bloc.add(HomeMenuImagePickerClickedEvent());},
+                        text: "Select From Gallery",
                       ),
                     ),
                   ),
@@ -109,19 +97,9 @@ class _HomeMenuScreenState extends State<HomeMenuScreen> {
             margin: const EdgeInsets.only(left: 8, right: 8),
             width: double.infinity,
             height: AppConstants.buttonHeight,
-            child: OutlinedButton(
-              onPressed: () {},
-              style: OutlinedButton.styleFrom(
-                backgroundColor: Colors.white,
-                side: const BorderSide(color: ColorConstants.electricBlue),
-              ),
-              child: Text(
-                "Upload",
-                textAlign: TextAlign.center,
-                style: Styles.h5w600.merge(const TextStyle(
-                  color: ColorConstants.electricBlue,
-                )),
-              ),
+            child: OutlinedButtonWidget(
+              onTapEvent: (){},
+              text: "Upload",
             ),
           ),
         ),
