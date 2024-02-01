@@ -1,4 +1,4 @@
-import 'package:black_pearl/presentation/dashboard/profile/widgets/list_menu_card.dart';
+import 'package:black_pearl/presentation/dashboard/list/widgets/list_menu_card.dart';
 import 'package:flutter/material.dart';
 import 'package:core/data/menu_item.dart';
 

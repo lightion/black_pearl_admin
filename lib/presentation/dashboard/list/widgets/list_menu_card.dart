@@ -1,5 +1,6 @@
 import 'package:beamer/beamer.dart';
 import 'package:black_pearl/presentation/routes/app_route_name.dart';
+import 'package:core/theme/color_constants.dart';
 import 'package:core/theme/styles.dart';
 import 'package:core/widgets/outlined_button_widget.dart';
 import 'package:flutter/material.dart';
@@ -71,6 +72,7 @@ class _ListMenuCardState extends State<ListMenuCard> {
             ],
           ),
         ),
+        surfaceTintColor: Colors.transparent,
       ),
     );
   }
