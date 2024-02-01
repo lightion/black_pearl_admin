@@ -1,3 +1,4 @@
+import 'package:black_pearl/presentation/dashboard/profile/widgets/profile_card_widget.dart';
 import 'package:core/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 
@@ -24,7 +25,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
           ),
-          Expanded(child: Container()),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  ProfileCardWidget(
+                      icon: Icons.edit_note_outlined,
+                      text: "Edit Profile",
+                      onTapEvent: () {}),
+                  ProfileCardWidget(
+                      icon: Icons.chat_bubble,
+                      text: "Help & Support",
+                      onTapEvent: () {}),
+                  ProfileCardWidget(
+                      icon: Icons.logout, text: "Logout", onTapEvent: () {}),
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+
+              ],
+            ),
+          ),
         ],
       ),
     );
