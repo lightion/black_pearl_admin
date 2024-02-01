@@ -1,6 +1,7 @@
 import 'package:beamer/beamer.dart';
 import 'package:black_pearl/presentation/dashboard/home/screen/home_menu_upload_screen.dart';
 import 'package:black_pearl/presentation/dashboard/list/screen/list_detail_screen.dart';
+import 'package:black_pearl/presentation/dashboard/profile/screen/profile_edit_screen.dart';
 import 'package:black_pearl/presentation/dashboard/screen/dashboard_screen.dart';
 import 'package:black_pearl/presentation/login/screen/login_screen.dart';
 import 'package:black_pearl/presentation/login/screen/login_verification_sreen.dart';
@@ -25,6 +26,9 @@ class RouteDelegator {
         },
         AppRouteName.listDetails: (context, state, data) {
           return ListDetailScreen(url: data as String);
+        },
+        AppRouteName.profileEdit: (context, state, data) {
+          return const ProfileEditScreen();
         },
       },
     ),

@@ -21,12 +21,12 @@ class ProfileCardWidget extends StatelessWidget {
       child: GestureDetector(
         onTap: onTapEvent,
         child: Card(
+          color: ColorConstants.lavenderMist,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(
               10.0,
             ),
           ),
-          surfaceTintColor: ColorConstants.lavenderMist,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
@@ -36,7 +36,9 @@ class ProfileCardWidget extends StatelessWidget {
                   flex: 0,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Center(child: Icon(icon),),
+                    child: Center(
+                      child: Icon(icon),
+                    ),
                   ),
                 ),
                 Expanded(
