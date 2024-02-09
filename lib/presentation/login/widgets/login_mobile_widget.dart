@@ -10,10 +10,13 @@ class LoginMobileWidget extends StatefulWidget {
 
   final VoidCallback onTapEvent;
 
+  final TextEditingController textEditingController;
+
   const LoginMobileWidget({
     super.key,
     required this.buttonText,
     required this.onTapEvent,
+    required this.textEditingController,
   });
 
   @override
@@ -21,12 +24,10 @@ class LoginMobileWidget extends StatefulWidget {
 }
 
 class _LoginMobileWidgetState extends State<LoginMobileWidget> {
-  late TextEditingController textEditingController;
 
   @override
   void initState() {
     super.initState();
-    textEditingController = TextEditingController();
   }
 
   @override
@@ -46,7 +47,7 @@ class _LoginMobileWidgetState extends State<LoginMobileWidget> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 8.0),
                 child: TextField(
-                  controller: textEditingController,
+                  controller: widget.textEditingController,
                   decoration: InputDecoration(
                     hintText: StringConstants.mobileHint,
                   ),
@@ -64,7 +65,7 @@ class _LoginMobileWidgetState extends State<LoginMobileWidget> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: ValueListenableBuilder(
-                valueListenable: textEditingController,
+                valueListenable: widget.textEditingController,
                 builder: (context, value, child) {
                   return SizedBox(
                     height: AppConstants.buttonHeight,

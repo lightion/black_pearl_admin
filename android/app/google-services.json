@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "614430845237",
+    "project_id": "black-pearl-admin",
+    "storage_bucket": "black-pearl-admin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:614430845237:android:162dc5f5a16df58cbcc47c",
+        "android_client_info": {
+          "package_name": "in.codephoenix.black_pearl"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDL_yunl9ZUEjIk71XfKK3H-QtVzLOZPE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

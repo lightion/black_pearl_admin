@@ -1,16 +1,24 @@
 import 'package:beamer/beamer.dart';
+import 'package:black_pearl/presentation/login/bloc/login_bloc.dart';
 import 'package:core/constants/app_constants.dart';
 import 'package:core/theme/color_constants.dart';
 import 'package:core/utils/asset_image_path_constants.dart';
 import 'package:core/widgets/app_bar_widget.dart';
 import 'package:core/widgets/button_widget.dart';
+import 'package:core/widgets/loading_overlay_widget.dart';
 import 'package:core/widgets/timer_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../routes/app_route_name.dart';
 
 class LoginVerificationScreen extends StatefulWidget {
-  const LoginVerificationScreen({super.key});
+  final String verificationId;
+
+  LoginVerificationScreen({
+    super.key,
+    required this.verificationId,
+  });
 
   @override
   State<LoginVerificationScreen> createState() =>
@@ -18,48 +26,52 @@ class LoginVerificationScreen extends StatefulWidget {
 }
 
 class _LoginVerificationScreenState extends State<LoginVerificationScreen> {
-  var otpController = List.generate(4, (index) => TextEditingController());
+  var otpController = List.generate(6, (index) => TextEditingController());
+  late LoginBloc bloc;
 
   bool enableButton = false;
   int valueCounter = 0;
 
   @override
+  void initState() {
+    super.initState();
+    bloc = BlocProvider.of<LoginBloc>(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBarWidget(
-        message: "",
-        leading: BackButton(
-          color: ColorConstants.black,
-          onPressed: () {
-            Beamer.of(context).beamBack();
-          },
-        ),
-        backgroundColor: Colors.transparent,
-        hideAppBar: true,
-      ),
-      body: Column(
-        children: [
-          Expanded(
-              child: Padding(
-            padding: const EdgeInsets.only(top: 74.0),
-            child: _topLayout(),
-          )),
-          Padding(
-            padding: const EdgeInsets.all(32.0),
-            child: SizedBox(
-              height: AppConstants.buttonHeight,
-              child: ButtonWidget(
-                buttonText: "Submit",
-                isEnabled: enableButton,
-                onTapEvent: () {
-                  context.beamToNamed(AppRouteName.home);
-                },
-                followIcon: AssetImagePath.arrowRightWhiteIcon,
-              ),
+    return Column(
+      children: [
+        Expanded(
+            child: Padding(
+          padding: const EdgeInsets.only(top: 74.0),
+          child: _topLayout(),
+        )),
+        Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: SizedBox(
+            height: AppConstants.buttonHeight,
+            child: ButtonWidget(
+              buttonText: "Submit",
+              isEnabled: enableButton,
+              onTapEvent: () {
+                String otpEntered = "";
+
+                for (var otp in otpController) {
+                  otpEntered = otpEntered + otp.value.text;
+                }
+                bloc.add(
+                  LoginOtpEvent(
+                    otpCode: otpEntered,
+                    verificationId: widget.verificationId,
+                  ),
+                );
+              },
+              followIcon: AssetImagePath.arrowRightWhiteIcon,
             ),
-          )
-        ],
-      ),
+          ),
+        )
+      ],
     );
   }
 
@@ -82,7 +94,7 @@ class _LoginVerificationScreenState extends State<LoginVerificationScreen> {
   Widget _boxLayout() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: List.generate(4, (index) => otpBoxBuilder(index)),
+      children: List.generate(6, (index) => otpBoxBuilder(index)),
     );
   }
 
@@ -90,23 +102,23 @@ class _LoginVerificationScreenState extends State<LoginVerificationScreen> {
     return Container(
       alignment: Alignment.center,
       height: 70,
-      width: 70,
+      width: 40,
       child: TextField(
         controller: otpController[index],
         onChanged: (value) {
-          if (value.length == 1 && index <= 2) {
+          if (value.length == 1 && index <= 4) {
             valueCounter++;
             FocusScope.of(context).nextFocus();
           } else if (value.isEmpty && index > 0) {
             FocusScope.of(context).previousFocus();
             valueCounter--;
-          } else if (value.length == 1 && index == 3) {
+          } else if (value.length == 1 && index == 5) {
             valueCounter++;
             FocusScope.of(context).unfocus();
           } else if (value.isEmpty && index == 0) {
             valueCounter--;
           }
-          if (valueCounter == 4) {
+          if (valueCounter == 6) {
             setState(() {
               enableButton = true;
             });
