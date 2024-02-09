@@ -32,11 +32,12 @@ class LoginOtpEvent extends LoginEvent {
 class LoginOtpSentEvent extends LoginEvent {
   final String verificationId;
   final int? token;
+  final String mobileNumber;
 
-  LoginOtpSentEvent({
-    required this.verificationId,
-    required this.token,
-  });
+  LoginOtpSentEvent(
+      {required this.verificationId,
+      required this.token,
+      required this.mobileNumber});
 
   @override
   List<Object?> get props => [verificationId];
@@ -65,6 +66,20 @@ class LoginErrorEvent extends LoginEvent {
   final String error;
 
   LoginErrorEvent({required this.error});
+
+  @override
+  List<Object?> get props => [];
+}
+
+class LoginTimedOutEvent extends LoginEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class LoginResendEvent extends LoginEvent {
+  final String mobileNumber;
+
+  LoginResendEvent({required this.mobileNumber});
 
   @override
   List<Object?> get props => [];

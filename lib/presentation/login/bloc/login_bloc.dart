@@ -13,14 +13,23 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final PhoneAuthRepository phoneAuthRepository;
   final FirebaseAuth auth = FirebaseAuth.instance;
 
+  int? resendTokenInBloc;
+  String _verificationId = "";
+
   LoginBloc({required this.phoneAuthRepository}) : super(LoginInitialState()) {
     on<LoginAttemptEvent>(_onSendOtp);
     on<LoginOtpEvent>(_onVerifyOtp);
-    on<LoginOtpSentEvent>((event, emit) =>
-        emit(LoginMobileSuccessState(verificationId: event.verificationId)));
+    on<LoginOtpSentEvent>((event, emit) => emit(LoginMobileSuccessState(
+          verificationId: event.verificationId,
+          mobileNumber: event.mobileNumber,
+        )));
     on<LoginErrorEvent>(
         (event, emit) => emit(LoginErrorState(error: event.error)));
     on<LoginAuthVerificationCompleteEvent>(_loginWithCredential);
+    on<LoginTimedOutEvent>(_timedOut);
+    on<LoginResendEvent>((event, emit) => add(LoginAttemptEvent(
+          mobileNumber: event.mobileNumber,
+        )));
   }
 
   FutureOr<void> _onSendOtp(
@@ -37,13 +46,19 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         verificationFailed: (e) {
           add(LoginErrorEvent(error: e.code));
         },
-        codeSent: (verificationId, int? resendToken) {
+        codeSent: (verificationId, int? resendToken) async {
           add(LoginOtpSentEvent(
             verificationId: verificationId,
             token: resendToken,
+            mobileNumber: event.mobileNumber,
           ));
+          _verificationId = verificationId;
+          resendTokenInBloc = resendToken;
         },
-        codeAutoRetrievalTimeout: (verificationId) {},
+        codeAutoRetrievalTimeout: (verificationId) {
+          verificationId = _verificationId;
+        },
+        resendToken: resendTokenInBloc,
       );
     } catch (e) {
       emit(LoginErrorState(error: e.toString()));
@@ -85,5 +100,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     } catch (e) {
       emit(LoginErrorState(error: e.toString()));
     }
+  }
+
+  FutureOr<void> _timedOut(LoginTimedOutEvent event, Emitter<LoginState> emit) {
+    emit(LoginTimedOutState());
   }
 }

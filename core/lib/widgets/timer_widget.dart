@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 class TimerWidget extends StatefulWidget {
   final Duration duration;
 
-  const TimerWidget({super.key, required this.duration});
+  final VoidCallback whenComplete;
+
+  const TimerWidget(
+      {super.key, required this.duration, required this.whenComplete});
 
   @override
   State<TimerWidget> createState() => _TimerWidgetState();
@@ -17,6 +20,9 @@ class _TimerWidgetState extends State<TimerWidget> {
     return TweenAnimationBuilder(
         tween: Tween(begin: widget.duration, end: Duration.zero),
         duration: widget.duration,
+        onEnd: () {
+          widget.whenComplete();
+        },
         builder: (context, value, child) {
           final minutes = value.inMinutes;
           final seconds = value.inSeconds % 60;

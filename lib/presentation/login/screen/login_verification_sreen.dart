@@ -10,15 +10,22 @@ import 'package:core/widgets/timer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../di/injector.dart';
 import '../../routes/app_route_name.dart';
 
 class LoginVerificationScreen extends StatefulWidget {
-  final String verificationId;
-
+  final Map<String, String> data;
+  late String verificationId;
+  late String mobileNumber;
   LoginVerificationScreen({
     super.key,
-    required this.verificationId,
-  });
+    required this.data
+  }) {
+    verificationId = data["verificationId"] ?? "";
+    mobileNumber = data["mobileNumber"] ?? "";
+  }
+
+
 
   @override
   State<LoginVerificationScreen> createState() =>
@@ -28,50 +35,103 @@ class LoginVerificationScreen extends StatefulWidget {
 class _LoginVerificationScreenState extends State<LoginVerificationScreen> {
   var otpController = List.generate(6, (index) => TextEditingController());
   late LoginBloc bloc;
+  late LoadingOverlay loadingOverlay;
 
   bool enableButton = false;
   int valueCounter = 0;
+  bool isTimedOut = false;
 
   @override
   void initState() {
     super.initState();
-    bloc = BlocProvider.of<LoginBloc>(context);
+    bloc = getIt<LoginBloc>();
+    loadingOverlay = LoadingOverlay(color: ColorConstants.lavenderMist);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-            child: Padding(
-          padding: const EdgeInsets.only(top: 74.0),
-          child: _topLayout(),
-        )),
-        Padding(
-          padding: const EdgeInsets.all(32.0),
-          child: SizedBox(
-            height: AppConstants.buttonHeight,
-            child: ButtonWidget(
-              buttonText: "Submit",
-              isEnabled: enableButton,
-              onTapEvent: () {
-                String otpEntered = "";
-
-                for (var otp in otpController) {
-                  otpEntered = otpEntered + otp.value.text;
-                }
-                bloc.add(
-                  LoginOtpEvent(
-                    otpCode: otpEntered,
-                    verificationId: widget.verificationId,
-                  ),
-                );
-              },
-              followIcon: AssetImagePath.arrowRightWhiteIcon,
+    return BlocProvider.value(
+      value: bloc,
+      child: BlocConsumer<LoginBloc, LoginState>(
+        listener: (context, state) async {
+          if (state is LoginLoadingState) {
+            loadingOverlay.show(context);
+          } else {
+            loadingOverlay.hide();
+          }
+          if (state is LoginErrorState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.error),
+              ),
+            );
+          }
+          if (state is LoginSuccessState) {
+            context.beamToNamed(AppRouteName.home);
+          }
+          if (state is LoginTimedOutState) {
+            isTimedOut = true;
+          } else {
+            isTimedOut = false;
+          }
+          if (state is LoginInitialState) {
+            isTimedOut = false;
+          }
+        },
+        builder: (context, state) {
+          return Scaffold(
+            appBar: AppBarWidget(
+              message: "",
+              leading: BackButton(
+                color: ColorConstants.black,
+                onPressed: () {
+                  Beamer.of(context).beamBack();
+                },
+              ),
+              backgroundColor: Colors.transparent,
+              hideAppBar: true,
             ),
-          ),
-        )
-      ],
+            body: Column(
+              children: [
+                Expanded(
+                    child: Padding(
+                  padding: const EdgeInsets.only(top: 74.0),
+                  child: _topLayout(),
+                )),
+                Padding(
+                  padding: const EdgeInsets.all(32.0),
+                  child: SizedBox(
+                    height: AppConstants.buttonHeight,
+                    child: ButtonWidget(
+                      buttonText: "Submit",
+                      isEnabled: enableButton,
+                      onTapEvent: () {
+                        String otpEntered = "";
+
+                        for (var otp in otpController) {
+                          otpEntered = otpEntered + otp.value.text;
+                        }
+                        bloc.add(
+                          LoginOtpEvent(
+                            otpCode: otpEntered,
+                            verificationId: widget.verificationId,
+                          ),
+                        );
+                      },
+                      followIcon: AssetImagePath.arrowRightWhiteIcon,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -81,10 +141,30 @@ class _LoginVerificationScreenState extends State<LoginVerificationScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _boxLayout(),
-        TextButton(onPressed: () {}, child: Text("Resend")),
-        const Center(
-          child: TimerWidget(
-            duration: Duration(minutes: 2),
+        Visibility(
+          visible: isTimedOut,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextButton(
+              onPressed: () {
+                bloc.add(LoginResendEvent(mobileNumber: widget.mobileNumber));
+              },
+              child: Text("Resend"),
+            ),
+          ),
+        ),
+        Center(
+          child: Visibility(
+            visible: !isTimedOut,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TimerWidget(
+                duration: const Duration(minutes: 2),
+                whenComplete: () {
+                  bloc.add(LoginTimedOutEvent());
+                },
+              ),
+            )
           ),
         ),
       ],

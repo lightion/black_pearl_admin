@@ -21,7 +21,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final bloc = LoginBloc(phoneAuthRepository: getIt<PhoneAuthRepository>());
+  final bloc = getIt<LoginBloc>();
   late TextEditingController textEditingController;
   final loadingOverlay = LoadingOverlay(color: ColorConstants.lavenderMist);
 
@@ -33,14 +33,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => bloc,
+    return BlocProvider.value(
+      value: bloc,
       child: BlocConsumer<LoginBloc, LoginState>(
         listener: (context, state) async {
           if (state is LoginLoadingState) {
             loadingOverlay.show(context);
-          } else if (state is LoginMobileSuccessState) {
-            loadingOverlay.hide();
           } else if (state is LoginErrorState) {
             loadingOverlay.hide();
             ScaffoldMessenger.of(context).showSnackBar(
@@ -48,6 +46,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 content: Text(state.error),
               ),
             );
+          }
+          if (state is LoginMobileSuccessState) {
+            loadingOverlay.hide();
+            context.beamToNamed(AppRouteName.loginVerification,
+                data: {"verificationId": state.verificationId, "mobileNumber": state.mobileNumber});
           }
           if (state is LoginSuccessState) {
             loadingOverlay.hide();
@@ -57,60 +60,61 @@ class _LoginScreenState extends State<LoginScreen> {
         builder: (context, state) {
           return Scaffold(
             backgroundColor: Colors.white,
-            body: state is LoginMobileSuccessState
-                ? LoginVerificationScreen(
-                    verificationId: state.verificationId,
-                  )
-                : Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+            body:
+                // state is LoginMobileSuccessState
+                //     ? LoginVerificationScreen(
+                //         verificationId: state.verificationId,
+                //       )
+                //     :
+                Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                //TODO: Add Logo for the application
+                const Expanded(
+                  flex: 3,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      //TODO: Add Logo for the application
-                      const Expanded(
-                        flex: 3,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 27.0),
-                              child: CircleAvatar(
-                                radius: AppConstants.loginLogoRadius,
-                                backgroundImage: NetworkImage(
-                                    'https://masterbundles.com/wp-content/uploads/2023/03/reestaurent-ai-676.jpg'),
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  StringConstants.logInTitle,
-                                  style: Styles.h2w700,
-                                ),
-                              ],
-                            ),
-                          ],
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 27.0),
+                        child: CircleAvatar(
+                          radius: AppConstants.loginLogoRadius,
+                          backgroundImage: NetworkImage(
+                              'https://masterbundles.com/wp-content/uploads/2023/03/reestaurent-ai-676.jpg'),
                         ),
                       ),
-                      Expanded(
-                        flex: 4,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 25, left: 16, right: 16),
-                          child: LoginMobileWidget(
-                            buttonText: "Continue",
-                            textEditingController: textEditingController,
-                            onTapEvent: () {
-                              String mobileNumber =
-                                  "+91" + textEditingController.value.text;
-                              bloc.add(LoginAttemptEvent(
-                                  mobileNumber: mobileNumber));
-                              // context.beamToNamed(AppRouteName.loginVerification);
-                            },
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            StringConstants.logInTitle,
+                            style: Styles.h2w700,
                           ),
-                        ),
+                        ],
                       ),
                     ],
                   ),
+                ),
+                Expanded(
+                  flex: 4,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(top: 25, left: 16, right: 16),
+                    child: LoginMobileWidget(
+                      buttonText: "Continue",
+                      textEditingController: textEditingController,
+                      onTapEvent: () {
+                        String mobileNumber =
+                            "+91${textEditingController.value.text}";
+                        bloc.add(LoginAttemptEvent(mobileNumber: mobileNumber));
+                        // context.beamToNamed(AppRouteName.loginVerification);
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
           );
         },
       ),

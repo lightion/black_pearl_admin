@@ -16,11 +16,12 @@ class RouteDelegator {
         AppRouteName.login: (context, state, data) {
           return const LoginScreen();
         },
-        // AppRouteName.loginVerification: (context, state, data) {
-        //   return LoginVerificationScreen(
-        //     data: data as Map<String, Object>,
-        //   );
-        // },
+        AppRouteName.loginVerification: (context, state, data) {
+          return LoginVerificationScreen(
+            data: data as Map<String, String>,
+
+          );
+        },
         AppRouteName.home: (context, state, data) {
           return const DashboardScreen();
         },
