@@ -54,6 +54,7 @@ getItInit() async {
         phoneAuthRepository: authRepository,
         useCase: getIt(),
         mobileUseCase: getIt(),
+        preference: getIt(),
       ));
 
   // data source

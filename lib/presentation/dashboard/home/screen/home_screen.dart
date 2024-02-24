@@ -1,6 +1,14 @@
 import 'package:beamer/beamer.dart';
+import 'package:black_pearl/di/injector.dart';
+import 'package:black_pearl/presentation/dashboard/home/bloc/home_bloc.dart';
+import 'package:core/enums/menu_type.dart';
+import 'package:core/localstorage/shared_preference_service.dart';
+import 'package:core/theme/color_constants.dart';
 import 'package:core/theme/styles.dart';
+import 'package:core/widgets/loading_overlay_widget.dart';
+import 'package:domain/usecases/get_restaurant_by_mobile_usecase.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../routes/app_route_name.dart';
 
@@ -12,61 +20,98 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final bloc = HomeBloc(
+    mobileUseCase: getIt<GetRestaurantByMobileUseCase>(),
+    preference: getIt<SharedPreferenceService>(),
+  );
+
+  final _loadingOverlay = LoadingOverlay(color: ColorConstants.lavenderMist);
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Expanded(
-              flex: 3,
-              child: Center(
-                child: Card(
-                  semanticContainer: true,
-                  clipBehavior: Clip.antiAlias,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  elevation: 5,
-                  child: Image.network(
-                    "https://media.istockphoto.com/id/1290444763/photo/assorted-of-indian-dish-with-curry-dish-naan-chicken.jpg?s=612x612&w=0&k=20&c=5q09leP6_QnvdUEfsB6KUXDTTBJtl88bEwrDfRVNA0U=",
-                    fit: BoxFit.fill,
-                  ),
-                ),
+    return BlocProvider(
+      create: (context) => bloc..add(HomeInitialEvent()),
+      child: BlocConsumer<HomeBloc, HomeState>(
+        listener: (context, state) async {
+          if (state is HomeLoadingState) {
+            _loadingOverlay.show(context);
+          } else {
+            _loadingOverlay.hide();
+          }
+          if (state is HomeErrorState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.error),
               ),
-            ),
-            const Expanded(
-              flex: 0,
-              child: Padding(
-                padding: EdgeInsets.only(left: 16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Menu",
-                      style: Styles.h3w700,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 4,
-              child: Row(
+            );
+          }
+          if (state is HomeMenuClickedState) {
+            context.beamToNamed(AppRouteName.homeMenu);
+          }
+        },
+        builder: (context, state) {
+          return SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
                 children: [
-                  Expanded(child: menuWidget("Lunch")),
-                  Expanded(child: menuWidget("Dinner")),
+                  Expanded(
+                    flex: 3,
+                    child: Center(
+                      child: Card(
+                        semanticContainer: true,
+                        clipBehavior: Clip.antiAlias,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        elevation: 5,
+                        child: Image.network(
+                          "https://media.istockphoto.com/id/1290444763/photo/assorted-of-indian-dish-with-curry-dish-naan-chicken.jpg?s=612x612&w=0&k=20&c=5q09leP6_QnvdUEfsB6KUXDTTBJtl88bEwrDfRVNA0U=",
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const Expanded(
+                    flex: 0,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Menu",
+                            style: Styles.h3w700,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: Row(
+                      children: [
+                        Expanded(
+                            child: menuWidget(
+                          menuType: MenuType.lunch,
+                        )),
+                        Expanded(
+                            child: menuWidget(
+                          menuType: MenuType.dinner,
+                        )),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
 
-  Widget menuWidget(String menuType) {
+  Widget menuWidget({required MenuType menuType}) {
     return GestureDetector(
       child: Column(
         children: [
@@ -86,11 +131,11 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          Text(menuType),
+          Text(menuType == MenuType.lunch ? "Lunch" : "Dinner"),
         ],
       ),
       onTap: () {
-        context.beamToNamed(AppRouteName.homeMenu);
+        bloc.add(HomeMenuClickedEvent(type: menuType));
       },
     );
   }

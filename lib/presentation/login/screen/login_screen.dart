@@ -32,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: bloc,
+      value: bloc..add(LoginInitialEvent()),
       child: BlocConsumer<LoginBloc, LoginState>(
         listener: (context, state) async {
           if (state is LoginLoadingState) {

@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:core/constants/app_constants.dart';
+import 'package:core/localstorage/shared_preference_service.dart';
 import 'package:data/repository/phone_auth_repository.dart';
 import 'package:domain/usecases/get_restaurant_by_mobile_usecase.dart';
 import 'package:domain/usecases/get_restaurants_usecase.dart';
@@ -16,6 +18,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final GetRestaurantsUseCase useCase;
   final GetRestaurantByMobileUseCase mobileUseCase;
+  final SharedPreferenceService preference;
 
   int? resendTokenInBloc;
   String _verificationId = "";
@@ -24,7 +27,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     required this.phoneAuthRepository,
     required this.useCase,
     required this.mobileUseCase,
+    required this.preference,
   }) : super(LoginInitialState()) {
+    on<LoginInitialEvent>(_onInitialize);
     on<LoginAttemptEvent>(_onSendOtp);
     on<LoginOtpEvent>(_onVerifyOtp);
     on<LoginOtpSentEvent>((event, emit) => emit(LoginMobileSuccessState(
@@ -58,6 +63,19 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     //     });
     //   });
     // });
+  }
+
+  FutureOr<void> _onInitialize(
+      LoginInitialEvent event, Emitter<LoginState> emit) async {
+    emit(LoginLoadingState());
+    final id = await preference.readSecureData(AppConstants.prefId) ?? "";
+    final mobileNumber =
+        await preference.readSecureData(AppConstants.prefMobileNumber) ?? "";
+    if (id.isNotEmpty || mobileNumber.isNotEmpty) {
+      emit(LoginSuccessState());
+    } else {
+      emit(LoginInitialState());
+    }
   }
 
   FutureOr<void> _onSendOtp(
@@ -148,6 +166,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           emit(LoginRegistrationRequiredState());
         } else if (success.status == true) {
           print("mobile exist");
+          preference.writeSecureData(AppConstants.prefMobileNumber, event.mobileNumber);
+          preference.writeSecureData(AppConstants.prefId, "${success.id}");
           emit(LoginSuccessState());
         } else {
           emit(LoginRegistrationRequiredState());
