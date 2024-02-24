@@ -1,7 +1,6 @@
 import 'package:beamer/beamer.dart';
 import 'package:black_pearl/di/injector.dart';
 import 'package:black_pearl/presentation/login/bloc/login_bloc.dart';
-import 'package:black_pearl/presentation/login/screen/login_verification_sreen.dart';
 import 'package:black_pearl/presentation/login/widgets/login_mobile_widget.dart';
 import 'package:black_pearl/presentation/routes/app_route_name.dart';
 import 'package:core/constants/app_constants.dart';
@@ -9,7 +8,6 @@ import 'package:core/constants/string_constants.dart';
 import 'package:core/theme/color_constants.dart';
 import 'package:core/theme/styles.dart';
 import 'package:core/widgets/loading_overlay_widget.dart';
-import 'package:data/repository/phone_auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -49,8 +47,10 @@ class _LoginScreenState extends State<LoginScreen> {
           }
           if (state is LoginMobileSuccessState) {
             loadingOverlay.hide();
-            context.beamToNamed(AppRouteName.loginVerification,
-                data: {"verificationId": state.verificationId, "mobileNumber": state.mobileNumber});
+            context.beamToNamed(AppRouteName.loginVerification, data: {
+              "verificationId": state.verificationId,
+              "mobileNumber": state.mobileNumber
+            });
           }
           if (state is LoginSuccessState) {
             loadingOverlay.hide();
@@ -60,13 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
         builder: (context, state) {
           return Scaffold(
             backgroundColor: Colors.white,
-            body:
-                // state is LoginMobileSuccessState
-                //     ? LoginVerificationScreen(
-                //         verificationId: state.verificationId,
-                //       )
-                //     :
-                Column(
+            body: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -105,10 +99,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       buttonText: "Continue",
                       textEditingController: textEditingController,
                       onTapEvent: () {
-                        String mobileNumber =
-                            "+91${textEditingController.value.text}";
+                        String mobileNumber = textEditingController.value.text;
                         bloc.add(LoginAttemptEvent(mobileNumber: mobileNumber));
-                        // context.beamToNamed(AppRouteName.loginVerification);
                       },
                     ),
                   ),

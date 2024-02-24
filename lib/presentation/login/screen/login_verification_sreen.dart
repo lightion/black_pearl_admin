@@ -15,17 +15,13 @@ import '../../routes/app_route_name.dart';
 
 class LoginVerificationScreen extends StatefulWidget {
   final Map<String, String> data;
-  late String verificationId;
-  late String mobileNumber;
-  LoginVerificationScreen({
-    super.key,
-    required this.data
-  }) {
+  late final String verificationId;
+  late final String mobileNumber;
+
+  LoginVerificationScreen({super.key, required this.data}) {
     verificationId = data["verificationId"] ?? "";
     mobileNumber = data["mobileNumber"] ?? "";
   }
-
-
 
   @override
   State<LoginVerificationScreen> createState() =>
@@ -73,6 +69,13 @@ class _LoginVerificationScreenState extends State<LoginVerificationScreen> {
           }
           if (state is LoginSuccessState) {
             context.beamToNamed(AppRouteName.home);
+          }
+          if (state is LoginCheckState) {
+            bloc.add(LoginCheckEvent(mobileNumber: widget.mobileNumber));
+          }
+          if (state is LoginRegistrationRequiredState) {
+            context.beamToNamed(AppRouteName.register,
+                data: widget.mobileNumber);
           }
           if (state is LoginTimedOutState) {
             isTimedOut = true;
@@ -155,17 +158,16 @@ class _LoginVerificationScreenState extends State<LoginVerificationScreen> {
         ),
         Center(
           child: Visibility(
-            visible: !isTimedOut,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TimerWidget(
-                duration: const Duration(minutes: 2),
-                whenComplete: () {
-                  bloc.add(LoginTimedOutEvent());
-                },
-              ),
-            )
-          ),
+              visible: !isTimedOut,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TimerWidget(
+                  duration: const Duration(minutes: 2),
+                  whenComplete: () {
+                    bloc.add(LoginTimedOutEvent());
+                  },
+                ),
+              )),
         ),
       ],
     );

@@ -9,4 +9,8 @@ class AppConstants {
   static const double ten = 10.0;
 
   static int indexPage = 0;
+
+  /// preference constants
+  static const String prefId = "pref_id";
+  static const String prefMobileNumber = "pref_mobile_number";
 }

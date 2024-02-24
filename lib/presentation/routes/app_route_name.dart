@@ -5,4 +5,5 @@ class AppRouteName {
   static const String homeMenu = "/homeMenu";
   static const String listDetails = "/listDetails";
   static const String profileEdit = "/profileEdit";
+  static const String register = "/register";
 }

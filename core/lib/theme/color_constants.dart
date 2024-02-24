@@ -12,4 +12,5 @@ class ColorConstants {
   static const lavenderMist = Color(0xFFD7DFF4);
   static const buttonPressed = Color(0xFF0050EB);
   static const gray50 = Color(0xFF7f7f7f);
+  static const labelTextColor = Color(0xFF7E7272);
 }

@@ -10,6 +10,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  core:
+    path: ../core
+  dartz: ^0.10.1
+
 
 dev_dependencies:
   flutter_test:

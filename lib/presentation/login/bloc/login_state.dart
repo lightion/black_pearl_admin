@@ -20,7 +20,9 @@ class LoginSuccessState extends LoginState {
 class LoginMobileSuccessState extends LoginState {
   final String verificationId;
   final String mobileNumber;
-  LoginMobileSuccessState({required this.verificationId, required this.mobileNumber});
+
+  LoginMobileSuccessState(
+      {required this.verificationId, required this.mobileNumber});
 
   @override
   List<Object?> get props => [verificationId];
@@ -51,6 +53,16 @@ class LoginErrorState extends LoginState {
 }
 
 class LoginTimedOutState extends LoginState {
+  @override
+  List<Object?> get props => [];
+}
+
+class LoginCheckState extends LoginState {
+  @override
+  List<Object?> get props => [];
+}
+
+class LoginRegistrationRequiredState extends LoginState {
   @override
   List<Object?> get props => [];
 }

@@ -84,3 +84,12 @@ class LoginResendEvent extends LoginEvent {
   @override
   List<Object?> get props => [];
 }
+
+class LoginCheckEvent extends LoginEvent {
+  final String mobileNumber;
+
+  LoginCheckEvent({required this.mobileNumber});
+
+  @override
+  List<Object?> get props => [];
+}
