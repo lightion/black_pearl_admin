@@ -3,15 +3,21 @@ import 'package:core/localstorage/shared_preference_service.dart';
 import 'package:data/core/chopper_client.dart';
 import 'package:data/mappers/add_restaurant_mapper.dart';
 import 'package:data/mappers/restaurant_mapper.dart';
+import 'package:data/mappers/restaurants_mapper.dart';
+import 'package:data/mappers/menu/add_menu_mapper.dart';
 import 'package:data/repository/phone_auth_repository.dart';
 import 'package:data/services/restaurant_service.dart';
+import 'package:data/services/menu/menu_service.dart';
 import 'package:data/datasources/restaurant_remote_data_source.dart';
-import 'package:data/mappers/restaurants_mapper.dart';
+import 'package:data/datasources/menu/menu_remote_data_source.dart';
+import 'package:domain/repositories/menu/menu_repository.dart';
 import 'package:domain/repositories/restaurant_repository.dart';
 import 'package:data/repository/restaurant_repository_impl.dart';
+import 'package:data/repository/menu/menu_repository_impl.dart';
 import 'package:domain/usecases/get_restaurants_usecase.dart';
 import 'package:domain/usecases/get_restaurant_by_mobile_usecase.dart';
 import 'package:domain/usecases/post_add_restaurant_usecase.dart';
+import 'package:domain/usecases/menu/post_add_menu_usecase.dart';
 import 'package:get_it/get_it.dart';
 
 final getIt = GetIt.instance;
@@ -25,7 +31,10 @@ getItInit() async {
   final client = AppChopperClient.createChopperClient();
 
   final restaurantService = RestaurantService.create(client);
+  final menuService = MenuService.create(client);
+
   getIt.registerLazySingleton<RestaurantService>(() => restaurantService);
+  getIt.registerLazySingleton<MenuService>(() => menuService);
 
   // use case
   getIt
@@ -36,6 +45,8 @@ getItInit() async {
       () => GetRestaurantByMobileUseCase(repository: getIt()));
   getIt.registerLazySingleton<PostAddRestaurantUseCase>(
       () => PostAddRestaurantUseCase(repository: getIt()));
+  getIt.registerLazySingleton<PostAddMenuUseCase>(
+      () => PostAddMenuUseCase(repository: getIt()));
 
   //Repository
   final authRepository = PhoneAuthRepository();
@@ -48,6 +59,10 @@ getItInit() async {
             restaurantMapper: getIt(),
             addRestaurantMapper: getIt(),
           ));
+  getIt.registerLazySingleton<MenuRepository>(() => MenuRepositoryImpl(
+        remoteDataSource: getIt(),
+        addMenuMapper: getIt(),
+      ));
 
   // bloc
   getIt.registerLazySingleton<LoginBloc>(() => LoginBloc(
@@ -61,8 +76,12 @@ getItInit() async {
   getIt.registerLazySingleton<RestaurantRemoteDataSource>(() =>
       RestaurantRemoteDataSourceImpl(restaurantService: restaurantService));
 
+  getIt.registerLazySingleton<MenuRemoteDataSource>(
+      () => MenuRemoteDataSourceImpl(menuService: menuService));
+
   // mapper
   getIt.registerLazySingleton<RestaurantsMapper>(() => RestaurantsMapper());
   getIt.registerLazySingleton<RestaurantMapper>(() => RestaurantMapper());
   getIt.registerLazySingleton<AddRestaurantMapper>(() => AddRestaurantMapper());
+  getIt.registerLazySingleton<AddMenuMapper>(() => AddMenuMapper());
 }

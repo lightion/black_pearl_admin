@@ -6,6 +6,7 @@ import 'package:black_pearl/presentation/dashboard/screen/dashboard_screen.dart'
 import 'package:black_pearl/presentation/login/screen/login_screen.dart';
 import 'package:black_pearl/presentation/login/screen/login_verification_sreen.dart';
 import 'package:black_pearl/presentation/register/screen/register_screen.dart';
+import 'package:core/enums/menu_type.dart';
 import 'app_route_name.dart';
 
 class RouteDelegator {
@@ -25,7 +26,7 @@ class RouteDelegator {
           return const DashboardScreen();
         },
         AppRouteName.homeMenu: (context, state, data) {
-          return const HomeMenuScreen();
+          return HomeMenuScreen(menuType: data as MenuType,);
         },
         AppRouteName.listDetails: (context, state, data) {
           return ListDetailScreen(url: data as String);

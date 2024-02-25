@@ -1,25 +1,44 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:beamer/beamer.dart';
+import 'package:black_pearl/di/injector.dart';
 import 'package:black_pearl/presentation/dashboard/home/bloc/home_menu_bloc.dart';
 import 'package:core/constants/app_constants.dart';
+import 'package:core/enums/menu_type.dart';
+import 'package:core/localstorage/shared_preference_service.dart';
 import 'package:core/theme/color_constants.dart';
 import 'package:core/theme/styles.dart';
 import 'package:core/widgets/app_bar_widget.dart';
 import 'package:core/widgets/loading_overlay_widget.dart';
 import 'package:core/widgets/outlined_button_widget.dart';
+import 'package:domain/entities/menu/add_menu_post_request.dart';
+import 'package:domain/usecases/menu/post_add_menu_usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 class HomeMenuScreen extends StatefulWidget {
-  const HomeMenuScreen({super.key});
+  final MenuType menuType;
+
+  const HomeMenuScreen({
+    super.key,
+    required this.menuType,
+  });
 
   @override
   State<HomeMenuScreen> createState() => _HomeMenuScreenState();
 }
 
 class _HomeMenuScreenState extends State<HomeMenuScreen> {
-  final bloc = HomeMenuBloc();
+  XFile? image;
+
+  final SharedPreferenceService preference = getIt<SharedPreferenceService>();
+
+  final bloc = HomeMenuBloc(
+    preference: getIt<SharedPreferenceService>(),
+    addMenuUseCase: getIt<PostAddMenuUseCase>(),
+  );
 
   final loadingOverlay = LoadingOverlay(
     color: ColorConstants.electricBlue,
@@ -41,6 +60,21 @@ class _HomeMenuScreenState extends State<HomeMenuScreen> {
             loadingOverlay.show(context);
           } else {
             loadingOverlay.hide();
+          }
+          if (state is HomeMenuImageSelectedSuccess) {
+            image = state.pickedFile;
+          }
+
+          if (state is HomeMenuErrorState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.error),
+              ),
+            );
+          }
+
+          if (state is HomeMenuImageUploadSuccessState) {
+            Beamer.of(context).beamBack();
           }
         },
         builder: (context, state) {
@@ -72,7 +106,9 @@ class _HomeMenuScreenState extends State<HomeMenuScreen> {
                       width: double.infinity,
                       height: AppConstants.buttonHeight,
                       child: OutlinedButtonWidget(
-                        onTapEvent: () { bloc.add(HomeMenuImagePickerClickedEvent());},
+                        onTapEvent: () {
+                          bloc.add(HomeMenuImagePickerClickedEvent());
+                        },
                         text: "Select From Gallery",
                       ),
                     ),
@@ -98,7 +134,27 @@ class _HomeMenuScreenState extends State<HomeMenuScreen> {
             width: double.infinity,
             height: AppConstants.buttonHeight,
             child: OutlinedButtonWidget(
-              onTapEvent: (){},
+              onTapEvent: () async {
+                final String restaurantId =
+                    await preference.readSecureData(AppConstants.prefId) ?? "";
+                List<int>? imageBytes =
+                    image != null ? await image!.readAsBytes() : null;
+                if (image == null) {
+                  print("Image is coming as null");
+                }
+                print("image bytes: $imageBytes");
+                bloc.add(HomeMenuUploadImageEvent(
+                    request: AddMenuPostRequest(
+                  restaurantId:
+                      restaurantId.isNotEmpty ? int.parse(restaurantId) : 0,
+                  menuType:
+                      widget.menuType == MenuType.lunch ? "lunch" : "dinner",
+                  restaurant: null,
+                  menuImageURL: image != null
+                      ? "data:image/png;base64, ${base64Encode(imageBytes!)}"
+                      : "",
+                )));
+              },
               text: "Upload",
             ),
           ),

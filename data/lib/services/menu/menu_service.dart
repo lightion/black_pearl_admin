@@ -1,0 +1,12 @@
+import 'package:chopper/chopper.dart';
+import 'package:domain/entities/menu/add_menu_post_request.dart';
+
+part 'menu_service.chopper.dart';
+
+@ChopperApi(baseUrl: "/")
+abstract class MenuService extends ChopperService {
+  static MenuService create([ChopperClient? client]) => _$MenuService(client);
+
+  @Post(path: 'WebApi/api/restaurants/RestaurantMenu/AddNewRestaurantMenu')
+  Future<Response> postAddMenu(AddMenuPostRequest request);
+}

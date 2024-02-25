@@ -46,7 +46,10 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           }
           if (state is HomeMenuClickedState) {
-            context.beamToNamed(AppRouteName.homeMenu);
+            context.beamToNamed(
+              AppRouteName.homeMenu,
+              data: state.type,
+            );
           }
         },
         builder: (context, state) {
