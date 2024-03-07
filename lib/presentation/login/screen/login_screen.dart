@@ -7,6 +7,7 @@ import 'package:core/constants/app_constants.dart';
 import 'package:core/constants/string_constants.dart';
 import 'package:core/theme/color_constants.dart';
 import 'package:core/theme/styles.dart';
+import 'package:core/utils/asset_image_path_constants.dart';
 import 'package:core/widgets/loading_overlay_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,6 +57,9 @@ class _LoginScreenState extends State<LoginScreen> {
             loadingOverlay.hide();
             context.beamToNamed(AppRouteName.home);
           }
+          if (state is LoginInitialState) {
+            loadingOverlay.hide();
+          }
         },
         builder: (context, state) {
           return Scaffold(
@@ -74,8 +78,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: EdgeInsets.only(bottom: 27.0),
                         child: CircleAvatar(
                           radius: AppConstants.loginLogoRadius,
-                          backgroundImage: NetworkImage(
-                              'https://masterbundles.com/wp-content/uploads/2023/03/reestaurent-ai-676.jpg'),
+                          backgroundImage: AssetImage(
+                            AssetImagePath.blackPearlLogo,
+                          ),
                         ),
                       ),
                       Row(

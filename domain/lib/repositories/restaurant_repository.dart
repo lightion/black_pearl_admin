@@ -14,4 +14,9 @@ abstract class RestaurantRepository {
   Future<Either<Failure, AddRestaurantEntity>> postAddRestaurant(
     AddRestaurantPostRequest request,
   );
+
+  Future<Either<Failure, String>> uploadImage(
+    List<int> image,
+    int id,
+  );
 }

@@ -14,6 +14,7 @@ import 'package:core/widgets/loading_overlay_widget.dart';
 import 'package:core/widgets/outlined_button_widget.dart';
 import 'package:domain/entities/menu/add_menu_post_request.dart';
 import 'package:domain/usecases/menu/post_add_menu_usecase.dart';
+import 'package:domain/usecases/post_upload_image_usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -32,12 +33,15 @@ class HomeMenuScreen extends StatefulWidget {
 
 class _HomeMenuScreenState extends State<HomeMenuScreen> {
   XFile? image;
+  List<int>? imageBytes;
+
 
   final SharedPreferenceService preference = getIt<SharedPreferenceService>();
 
   final bloc = HomeMenuBloc(
     preference: getIt<SharedPreferenceService>(),
     addMenuUseCase: getIt<PostAddMenuUseCase>(),
+    postUploadImageUseCase: getIt<PostUploadImageUseCase>(),
   );
 
   final loadingOverlay = LoadingOverlay(
@@ -58,14 +62,19 @@ class _HomeMenuScreenState extends State<HomeMenuScreen> {
         listener: (context, state) async {
           if (state is HomeMenuLoading) {
             loadingOverlay.show(context);
-          } else {
-            loadingOverlay.hide();
           }
           if (state is HomeMenuImageSelectedSuccess) {
             image = state.pickedFile;
+            final _imageFile = File(state.path);
+
+            imageBytes = await _imageFile.readAsBytes().whenComplete(() =>
+                loadingOverlay.hide()
+            );
+            print("image bytes: $imageBytes");
           }
 
           if (state is HomeMenuErrorState) {
+            loadingOverlay.hide();
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.error),
@@ -74,6 +83,7 @@ class _HomeMenuScreenState extends State<HomeMenuScreen> {
           }
 
           if (state is HomeMenuImageUploadSuccessState) {
+            loadingOverlay.hide();
             Beamer.of(context).beamBack();
           }
         },
@@ -137,23 +147,13 @@ class _HomeMenuScreenState extends State<HomeMenuScreen> {
               onTapEvent: () async {
                 final String restaurantId =
                     await preference.readSecureData(AppConstants.prefId) ?? "";
-                List<int>? imageBytes =
-                    image != null ? await image!.readAsBytes() : null;
-                if (image == null) {
-                  print("Image is coming as null");
+                if (imageBytes != null) {
+                  bloc.add(HomeMenuUploadImageEvent(
+                    restId:
+                    1002,
+                    image: imageBytes!,
+                  ));
                 }
-                print("image bytes: $imageBytes");
-                bloc.add(HomeMenuUploadImageEvent(
-                    request: AddMenuPostRequest(
-                  restaurantId:
-                      restaurantId.isNotEmpty ? int.parse(restaurantId) : 0,
-                  menuType:
-                      widget.menuType == MenuType.lunch ? "lunch" : "dinner",
-                  restaurant: null,
-                  menuImageURL: image != null
-                      ? "data:image/png;base64, ${base64Encode(imageBytes!)}"
-                      : "",
-                )));
               },
               text: "Upload",
             ),

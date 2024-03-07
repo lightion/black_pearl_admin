@@ -13,11 +13,14 @@ class HomeMenuLoading extends HomeMenuState {
 }
 
 class HomeMenuImageSelectedSuccess extends HomeMenuState {
-  final String path;
 
   final XFile? pickedFile;
 
-  HomeMenuImageSelectedSuccess({required this.path, required this.pickedFile});
+  final List<int>? pickedFileBytes;
+
+  final String path;
+
+  HomeMenuImageSelectedSuccess({required this.path, required this.pickedFileBytes, required this.pickedFile});
 
   @override
   List<Object?> get props => [];

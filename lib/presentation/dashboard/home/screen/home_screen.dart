@@ -5,6 +5,7 @@ import 'package:core/enums/menu_type.dart';
 import 'package:core/localstorage/shared_preference_service.dart';
 import 'package:core/theme/color_constants.dart';
 import 'package:core/theme/styles.dart';
+import 'package:core/utils/asset_image_path_constants.dart';
 import 'package:core/widgets/loading_overlay_widget.dart';
 import 'package:domain/usecases/get_restaurant_by_mobile_usecase.dart';
 import 'package:flutter/material.dart';
@@ -65,11 +66,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         semanticContainer: true,
                         clipBehavior: Clip.antiAlias,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(15),
                         ),
                         elevation: 5,
-                        child: Image.network(
-                          "https://media.istockphoto.com/id/1290444763/photo/assorted-of-indian-dish-with-curry-dish-naan-chicken.jpg?s=612x612&w=0&k=20&c=5q09leP6_QnvdUEfsB6KUXDTTBJtl88bEwrDfRVNA0U=",
+                        child: Image.asset(
+                          AssetImagePath.homeImage,
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -95,13 +96,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Row(
                       children: [
                         Expanded(
-                            child: menuWidget(
-                          menuType: MenuType.lunch,
-                        )),
+                          child: menuWidget(
+                            menuType: MenuType.lunch,
+                            imageUrl: AssetImagePath.lunchMenuIcon,
+                          ),
+                        ),
                         Expanded(
-                            child: menuWidget(
-                          menuType: MenuType.dinner,
-                        )),
+                          child: menuWidget(
+                            menuType: MenuType.dinner,
+                            imageUrl: AssetImagePath.dinnerMenuIcon,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -114,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget menuWidget({required MenuType menuType}) {
+  Widget menuWidget({required MenuType menuType, required String imageUrl}) {
     return GestureDetector(
       child: Column(
         children: [
@@ -125,11 +130,11 @@ class _HomeScreenState extends State<HomeScreen> {
               semanticContainer: true,
               clipBehavior: Clip.antiAlias,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(20),
               ),
               elevation: 5,
-              child: Image.network(
-                "https://media.istockphoto.com/id/1290444763/photo/assorted-of-indian-dish-with-curry-dish-naan-chicken.jpg?s=612x612&w=0&k=20&c=5q09leP6_QnvdUEfsB6KUXDTTBJtl88bEwrDfRVNA0U=",
+              child: Image.asset(
+                imageUrl,
                 fit: BoxFit.fill,
               ),
             ),

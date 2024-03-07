@@ -4,6 +4,7 @@ import 'package:black_pearl/presentation/dashboard/profile/screen/profile_screen
 import 'package:core/constants/app_constants.dart';
 import 'package:core/constants/string_constants.dart';
 import 'package:core/theme/color_constants.dart';
+import 'package:core/utils/asset_image_path_constants.dart';
 import 'package:core/widgets/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -56,8 +57,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
           backgroundColor: ColorConstants.white,
           leading: const CircleAvatar(
             radius: 16,
-            backgroundImage: NetworkImage(
-              'https://masterbundles.com/wp-content/uploads/2023/03/reestaurent-ai-676.jpg',
+            backgroundImage: AssetImage(
+              AssetImagePath.blackPearlLogo,
             ),
           ),
         ),

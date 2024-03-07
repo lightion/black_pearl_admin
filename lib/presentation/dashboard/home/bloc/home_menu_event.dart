@@ -7,10 +7,19 @@ class HomeMenuImagePickerClickedEvent extends HomeMenuEvent {
   List<Object?> get props => [];
 }
 
-class HomeMenuUploadImageEvent extends HomeMenuEvent {
-  final AddMenuPostRequest request;
+class HomeMenuLoadingEvent extends HomeMenuEvent {
+  @override
+  List<Object?> get props => [];
 
-  HomeMenuUploadImageEvent({required this.request});
+}
+
+class HomeMenuUploadImageEvent extends HomeMenuEvent {
+
+  final int restId;
+
+  final List<int> image;
+
+  HomeMenuUploadImageEvent({required this.restId, required this.image});
 
   @override
   List<Object?> get props => [];

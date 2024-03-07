@@ -5,6 +5,7 @@ import 'package:domain/entities/restaurant/add_restaurant_post_request.dart';
 import '../models/add_restaurant_response.dart';
 import '../models/mobile_restaurant_response.dart';
 import '../models/restaurant_response.dart';
+import '../services/restaurant_image_service.dart';
 
 abstract class RestaurantRemoteDataSource {
   Future<RestaurantResponse> getRestaurants();
@@ -13,13 +14,17 @@ abstract class RestaurantRemoteDataSource {
 
   Future<AddRestaurantResponse> postAddRestaurant(
       AddRestaurantPostRequest request);
+
+  Future<String> uploadImage(List<int> image, int id);
 }
 
 class RestaurantRemoteDataSourceImpl implements RestaurantRemoteDataSource {
   RestaurantService restaurantService;
+  RestaurantImageService restaurantImageService;
 
   RestaurantRemoteDataSourceImpl({
     required this.restaurantService,
+    required this.restaurantImageService,
   });
 
   @override
@@ -73,6 +78,16 @@ class RestaurantRemoteDataSourceImpl implements RestaurantRemoteDataSource {
         response.body != null &&
         response.statusCode == 200) {
       return AddRestaurantResponse.fromJson(response.body);
+    } else {
+      throw Exception("Response Code is : ${response.statusCode}");
+    }
+  }
+
+  @override
+  Future<String> uploadImage(List<int> image, int id) async {
+    final response = await restaurantImageService.uploadImage(id, image);
+    if (response.isSuccessful && response.statusCode == 200) {
+      return "$response";
     } else {
       throw Exception("Response Code is : ${response.statusCode}");
     }

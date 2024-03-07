@@ -3,6 +3,7 @@ import 'package:black_pearl/presentation/dashboard/profile/widgets/profile_card_
 import 'package:black_pearl/presentation/routes/app_route_name.dart';
 import 'package:core/constants/app_constants.dart';
 import 'package:core/theme/styles.dart';
+import 'package:core/utils/asset_image_path_constants.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -23,8 +24,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Center(
               child: CircleAvatar(
                 radius: AppConstants.loginLogoRadius,
-                backgroundImage: NetworkImage(
-                    'https://masterbundles.com/wp-content/uploads/2023/03/reestaurent-ai-676.jpg'),
+                backgroundImage: AssetImage(
+                  AssetImagePath.blackPearlLogo,
+                ),
               ),
             ),
           ),
