@@ -1,5 +1,6 @@
 import 'package:chopper/chopper.dart';
 import 'package:domain/entities/restaurant/add_restaurant_post_request.dart';
+import 'package:domain/entities/restaurant/update_restaurant_post_request.dart';
 
 part 'restaurant_service.chopper.dart';
 
@@ -21,5 +22,11 @@ abstract class RestaurantService extends ChopperService {
 
   @Post(path: 'WebApi/api/restaurants/Restaurant/UpdateRestaurant')
   Future<Response> postUpdateRestaurant(
-      @Body() AddRestaurantPostRequest request);
+      @Body() UpdateRestaurantPostRequest request);
+
+  @Post(path: 'WebApi/api/restaurants/Restaurant/UpdateRestaurantStatus')
+  Future<Response> postUpdateRestaurantStatus(
+    @Query('id') int restId,
+    @Query('newStatus') bool status,
+  );
 }

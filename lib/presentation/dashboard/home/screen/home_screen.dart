@@ -8,6 +8,7 @@ import 'package:core/theme/styles.dart';
 import 'package:core/utils/asset_image_path_constants.dart';
 import 'package:core/widgets/loading_overlay_widget.dart';
 import 'package:domain/usecases/get_restaurant_by_mobile_usecase.dart';
+import 'package:domain/usecases/post_update_restaurant_status_usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:core/widgets/animated_toggle_widget.dart';
@@ -25,12 +26,14 @@ class _HomeScreenState extends State<HomeScreen> {
   final bloc = HomeBloc(
     mobileUseCase: getIt<GetRestaurantByMobileUseCase>(),
     preference: getIt<SharedPreferenceService>(),
+    statusUseCase: getIt<PostUpdateRestaurantStatusUseCase>(),
   );
 
   final _loadingOverlay = LoadingOverlay(color: ColorConstants.lavenderMist);
 
   @override
   Widget build(BuildContext context) {
+    bool status = false;
     return BlocProvider(
       create: (context) => bloc..add(HomeInitialEvent()),
       child: BlocConsumer<HomeBloc, HomeState>(
@@ -52,6 +55,9 @@ class _HomeScreenState extends State<HomeScreen> {
               AppRouteName.homeMenu,
               data: state.type,
             );
+          }
+          if(state is HomeInitialState) {
+            status = state.status;
           }
         },
         builder: (context, state) {
@@ -115,9 +121,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     flex: 2,
                       child: Center(
                         child: AnimatedToggle(
+                          initialPosition: status,
                           values: const ["Online", "Offline"],
                           onToggleCallback: (value) {
-
+                            bloc.add(HomeToggleClickedEvent(updateStatus: !status));
                           },
                           buttonColor: Colors.green,
                           backgroundColor: const Color(0xFFB5C1CC),

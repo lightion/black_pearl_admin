@@ -12,3 +12,9 @@ class HomeMenuClickedEvent extends HomeEvent {
 
   HomeMenuClickedEvent({required this.type});
 }
+
+class HomeToggleClickedEvent extends HomeEvent {
+  final bool updateStatus;
+
+  HomeToggleClickedEvent({required this.updateStatus});
+}

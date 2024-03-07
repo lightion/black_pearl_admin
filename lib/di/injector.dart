@@ -10,6 +10,7 @@ import 'package:data/mappers/menu/get_menu_mapper.dart';
 import 'package:data/mappers/restaurant_mapper.dart';
 import 'package:data/mappers/restaurants_mapper.dart';
 import 'package:data/mappers/menu/add_menu_mapper.dart';
+import 'package:data/mappers/update_restaurant_status_mapper.dart';
 
 //Service
 import 'package:data/repository/phone_auth_repository.dart';
@@ -31,6 +32,7 @@ import 'package:data/repository/menu/menu_repository_impl.dart';
 import 'package:domain/usecases/get_restaurants_usecase.dart';
 import 'package:domain/usecases/get_restaurant_by_mobile_usecase.dart';
 import 'package:domain/usecases/post_add_restaurant_usecase.dart';
+import 'package:domain/usecases/post_update_restaurant_status_usecase.dart';
 import 'package:domain/usecases/post_update_restaurant_usecase.dart';
 import 'package:domain/usecases/menu/post_add_menu_usecase.dart';
 import 'package:domain/usecases/menu/get_menu_usecase.dart';
@@ -68,7 +70,7 @@ getItInit() async {
   getIt.registerLazySingleton<PostAddRestaurantUseCase>(
       () => PostAddRestaurantUseCase(repository: getIt()));
   getIt.registerLazySingleton<PostUpdateRestaurantUseCase>(
-          () => PostUpdateRestaurantUseCase(repository: getIt()));
+      () => PostUpdateRestaurantUseCase(repository: getIt()));
   getIt.registerLazySingleton<PostAddMenuUseCase>(
       () => PostAddMenuUseCase(repository: getIt()));
 
@@ -76,6 +78,8 @@ getItInit() async {
       () => PostUploadImageUseCase(repository: getIt()));
   getIt.registerLazySingleton<GetMenuUseCase>(
       () => GetMenuUseCase(repository: getIt()));
+  getIt.registerLazySingleton<PostUpdateRestaurantStatusUseCase>(
+      () => PostUpdateRestaurantStatusUseCase(repository: getIt()));
 
   //Repository
   final authRepository = PhoneAuthRepository();
@@ -88,6 +92,7 @@ getItInit() async {
             restaurantMapper: getIt(),
             addRestaurantMapper: getIt(),
             addImageMapper: getIt(),
+            statusMapper: getIt(),
           ));
   getIt.registerLazySingleton<MenuRepository>(() => MenuRepositoryImpl(
         remoteDataSource: getIt(),
@@ -120,4 +125,6 @@ getItInit() async {
   getIt.registerLazySingleton<AddMenuMapper>(() => AddMenuMapper());
   getIt.registerLazySingleton<AddImageMapper>(() => AddImageMapper());
   getIt.registerLazySingleton<GetMenuMapper>(() => GetMenuMapper());
+  getIt.registerLazySingleton<UpdateRestaurantStatusMapper>(
+      () => UpdateRestaurantStatusMapper());
 }

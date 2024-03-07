@@ -5,8 +5,9 @@
 /// restaurantImageURL : "testimage.com/test.png"
 /// status : true
 
-class AddRestaurantPostRequest {
-  AddRestaurantPostRequest({
+class UpdateRestaurantPostRequest {
+  UpdateRestaurantPostRequest({
+    num? id,
     String? name,
     String? mobileNumber,
     String? emailAddress,
@@ -14,6 +15,7 @@ class AddRestaurantPostRequest {
     String? restaurantImageURL,
     bool? status,
   }) {
+    _id = id;
     _name = name;
     _mobileNumber = mobileNumber;
     _emailAddress = emailAddress;
@@ -22,7 +24,8 @@ class AddRestaurantPostRequest {
     _status = status;
   }
 
-  AddRestaurantPostRequest.fromJson(dynamic json) {
+  UpdateRestaurantPostRequest.fromJson(dynamic json) {
+    _id = json['id'];
     _name = json['name'];
     _mobileNumber = json['mobileNumber'];
     _emailAddress = json['emailAddress'];
@@ -31,6 +34,7 @@ class AddRestaurantPostRequest {
     _status = json['status'];
   }
 
+  num? _id;
   String? _name;
   String? _mobileNumber;
   String? _emailAddress;
@@ -38,7 +42,8 @@ class AddRestaurantPostRequest {
   String? _restaurantImageURL;
   bool? _status;
 
-  AddRestaurantPostRequest copyWith({
+  UpdateRestaurantPostRequest copyWith({
+    num? id,
     String? name,
     String? mobileNumber,
     String? emailAddress,
@@ -46,7 +51,8 @@ class AddRestaurantPostRequest {
     String? restaurantImageURL,
     bool? status,
   }) =>
-      AddRestaurantPostRequest(
+      UpdateRestaurantPostRequest(
+        id: id ?? _id,
         name: name ?? _name,
         mobileNumber: mobileNumber ?? _mobileNumber,
         emailAddress: emailAddress ?? _emailAddress,
@@ -55,6 +61,7 @@ class AddRestaurantPostRequest {
         status: status ?? _status,
       );
 
+  num? get id => _id;
 
   String? get name => _name;
 
@@ -70,6 +77,7 @@ class AddRestaurantPostRequest {
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
+    map['id'] = _id;
     map['name'] = _name;
     map['mobileNumber'] = _mobileNumber;
     map['emailAddress'] = _emailAddress;

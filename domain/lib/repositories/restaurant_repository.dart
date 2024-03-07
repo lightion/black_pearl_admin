@@ -6,6 +6,8 @@ import 'package:domain/entities/restaurant/restaurant_entity.dart';
 import 'package:core/error/failures.dart';
 import 'package:http/http.dart' as http;
 
+import '../entities/restaurant/update_restaurant_post_request.dart';
+
 abstract class RestaurantRepository {
   Future<Either<Failure, List<RestaurantEntity>>> getRestaurants();
 
@@ -18,8 +20,13 @@ abstract class RestaurantRepository {
   );
 
   Future<Either<Failure, AddRestaurantEntity>> postUpdateRestaurant(
-      AddRestaurantPostRequest request,
-      );
+    UpdateRestaurantPostRequest request,
+  );
+
+  Future<Either<Failure, void>> postUpdateRestaurantStatus(
+    int restId,
+    bool status,
+  );
 
   Future<Either<Failure, AddImageEntity>> uploadImage(
     http.MultipartFile image,

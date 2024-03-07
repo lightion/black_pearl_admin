@@ -6,13 +6,15 @@ class AnimatedToggle extends StatefulWidget {
   final Color backgroundColor;
   final Color buttonColor;
   final Color textColor;
+  bool initialPosition;
 
-  const AnimatedToggle({super.key,
+  AnimatedToggle({super.key,
     required this.values,
     required this.onToggleCallback,
     this.backgroundColor = const Color(0xFFe7e7e8),
     this.buttonColor = const Color(0xFFFFFFFF),
     this.textColor = const Color(0xFF000000),
+    this.initialPosition = true,
   });
   @override
   _AnimatedToggleState createState() => _AnimatedToggleState();
@@ -30,9 +32,9 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
         children: <Widget>[
           GestureDetector(
             onTap: () {
-              initialPosition = !initialPosition;
+              widget.initialPosition = !widget.initialPosition;
               var index = 0;
-              if (!initialPosition) {
+              if (!widget.initialPosition) {
                 index = 1;
               }
               widget.onToggleCallback(index);
@@ -71,18 +73,18 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
             duration: const Duration(milliseconds: 250),
             curve: Curves.decelerate,
             alignment:
-            initialPosition ? Alignment.centerLeft : Alignment.centerRight,
+            widget.initialPosition ? Alignment.centerLeft : Alignment.centerRight,
             child: Container(
               width: MediaQuery.of(context).size.width * 0.33,
               height: MediaQuery.of(context).size.width * 0.13,
               decoration: ShapeDecoration(
-                color: initialPosition? widget.buttonColor : Color(0xffdc3729),
+                color: widget.initialPosition? widget.buttonColor : Color(0xffdc3729),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.1),
                 ),
               ),
               child: Text(
-                initialPosition ? widget.values[0] : widget.values[1],
+                widget.initialPosition ? widget.values[0] : widget.values[1],
                 style: TextStyle(
                   fontFamily: 'Rubik',
                   fontSize: MediaQuery.of(context).size.width * 0.045,

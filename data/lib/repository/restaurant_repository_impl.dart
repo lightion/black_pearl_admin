@@ -6,12 +6,14 @@ import 'package:domain/entities/image/add_image_entity.dart';
 import 'package:domain/entities/restaurant/add_restaurant_entity.dart';
 import 'package:domain/entities/restaurant/add_restaurant_post_request.dart';
 import 'package:domain/entities/restaurant/restaurant_entity.dart';
+import 'package:domain/entities/restaurant/update_restaurant_post_request.dart';
 import 'package:domain/repositories/restaurant_repository.dart';
 import 'package:http/http.dart' as http;
 
 import '../mappers/add_restaurant_mapper.dart';
 import '../mappers/image/add_image_mapper.dart';
 import '../mappers/restaurant_mapper.dart';
+import '../mappers/update_restaurant_status_mapper.dart';
 
 class RestaurantRepositoryImpl implements RestaurantRepository {
   RestaurantRemoteDataSource remoteDataSource;
@@ -19,6 +21,7 @@ class RestaurantRepositoryImpl implements RestaurantRepository {
   RestaurantMapper restaurantMapper;
   AddRestaurantMapper addRestaurantMapper;
   AddImageMapper addImageMapper;
+  UpdateRestaurantStatusMapper statusMapper;
 
   RestaurantRepositoryImpl({
     required this.remoteDataSource,
@@ -26,6 +29,7 @@ class RestaurantRepositoryImpl implements RestaurantRepository {
     required this.restaurantMapper,
     required this.addRestaurantMapper,
     required this.addImageMapper,
+    required this.statusMapper,
   });
 
   @override
@@ -78,10 +82,23 @@ class RestaurantRepositoryImpl implements RestaurantRepository {
 
   @override
   Future<Either<Failure, AddRestaurantEntity>> postUpdateRestaurant(
-      AddRestaurantPostRequest request) async {
+      UpdateRestaurantPostRequest request) async {
     try {
       final response = await remoteDataSource.postUpdateRestaurant(request);
       return Right(addRestaurantMapper.parseToView(response));
+    } on Exception catch (exception) {
+      print("ServerFailure: ${exception.toString()}");
+      return Left(ServerFailure(description: exception.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> postUpdateRestaurantStatus(
+      int restId, bool status) async {
+    try {
+      final response =
+          await remoteDataSource.postUpdateRestaurantStatus(restId, status);
+      return Right(statusMapper.parseToView(response));
     } on Exception catch (exception) {
       print("ServerFailure: ${exception.toString()}");
       return Left(ServerFailure(description: exception.toString()));

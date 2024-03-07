@@ -1,7 +1,9 @@
 import 'package:chopper/chopper.dart';
 import 'package:data/models/image/add_image_response.dart';
+import 'package:data/models/update_restaurant_status_response.dart';
 import 'package:data/services/restaurant_service.dart';
 import 'package:domain/entities/restaurant/add_restaurant_post_request.dart';
+import 'package:domain/entities/restaurant/update_restaurant_post_request.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/add_restaurant_response.dart';
@@ -18,7 +20,12 @@ abstract class RestaurantRemoteDataSource {
       AddRestaurantPostRequest request);
 
   Future<AddRestaurantResponse> postUpdateRestaurant(
-      AddRestaurantPostRequest request);
+      UpdateRestaurantPostRequest request);
+
+  Future<UpdateRestaurantStatusResponse> postUpdateRestaurantStatus(
+    int restId,
+    bool status,
+  );
 
   Future<AddImageResponse> uploadImage(http.MultipartFile image, int id);
 }
@@ -100,12 +107,28 @@ class RestaurantRemoteDataSourceImpl implements RestaurantRemoteDataSource {
 
   @override
   Future<AddRestaurantResponse> postUpdateRestaurant(
-      AddRestaurantPostRequest request) async {
+      UpdateRestaurantPostRequest request) async {
     final response = await restaurantService.postUpdateRestaurant(request);
     if (response.isSuccessful &&
         response.body != null &&
         response.statusCode == 200) {
       return AddRestaurantResponse.fromJson(response.body);
+    } else {
+      throw Exception("Response Code is : ${response.statusCode}");
+    }
+  }
+
+  @override
+  Future<UpdateRestaurantStatusResponse> postUpdateRestaurantStatus(
+    int restId,
+    bool status,
+  ) async {
+    final response =
+        await restaurantService.postUpdateRestaurantStatus(restId, status);
+    if (response.isSuccessful &&
+        response.body != null &&
+        response.statusCode == 200) {
+      return UpdateRestaurantStatusResponse.fromJson(response.body);
     } else {
       throw Exception("Response Code is : ${response.statusCode}");
     }

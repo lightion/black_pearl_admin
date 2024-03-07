@@ -4,8 +4,10 @@ import 'package:core/constants/app_constants.dart';
 import 'package:core/localstorage/shared_preference_service.dart';
 import 'package:domain/entities/restaurant/add_restaurant_post_request.dart';
 import 'package:domain/usecases/post_add_restaurant_usecase.dart';
+import 'package:domain/usecases/post_upload_image_usecase.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 
 part 'register_event.dart';
@@ -14,10 +16,12 @@ part 'register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final PostAddRestaurantUseCase addRestaurantUseCase;
+  final PostUploadImageUseCase postUploadImageUseCase;
   final SharedPreferenceService sharedPreference;
 
   RegisterBloc({
     required this.addRestaurantUseCase,
+    required this.postUploadImageUseCase,
     required this.sharedPreference,
   }) : super(RegisterInitialState()) {
     on<RegisterImageUploadEvent>(_onImagePicked);
@@ -40,7 +44,32 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       RegisterSubmitEvent event, Emitter<RegisterState> emit) async {
     emit(RegisterLoadingState());
 
-    final result = await addRestaurantUseCase.call(event.request);
+    String imageUrl = "";
+
+    if (event.imagePath.isNotEmpty) {
+      final imageFile = await MultipartFile.fromPath(
+        'file',
+        event.imagePath,
+      );
+      final response = await postUploadImageUseCase.call(imageFile, 0);
+      if (isClosed) return;
+      response.fold(
+        (failure) =>
+            emit(RegisterFailedState(error: "Image Upload Api Failure")),
+        (success) => imageUrl = success.imageUrl ?? "",
+      );
+    }
+
+    final result = await addRestaurantUseCase.call(
+      AddRestaurantPostRequest(
+        name: event.request.name,
+        mobileNumber: event.request.mobileNumber,
+        emailAddress: event.request.emailAddress,
+        address: event.request.address,
+        restaurantImageURL: imageUrl,
+        status: event.request.status,
+      ),
+    );
 
     if (isClosed) return;
     result.fold((failure) {

@@ -9,8 +9,8 @@ import 'package:core/theme/color_constants.dart';
 import 'package:core/widgets/app_bar_widget.dart';
 import 'package:core/widgets/button_widget.dart';
 import 'package:core/widgets/loading_overlay_widget.dart';
-import 'package:domain/entities/restaurant/add_restaurant_post_request.dart';
 import 'package:domain/entities/restaurant/restaurant_entity.dart';
+import 'package:domain/entities/restaurant/update_restaurant_post_request.dart';
 import 'package:domain/usecases/get_restaurant_by_mobile_usecase.dart';
 import 'package:domain/usecases/post_update_restaurant_usecase.dart';
 import 'package:domain/usecases/post_upload_image_usecase.dart';
@@ -98,7 +98,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                       isEnabled: true,
                       onTapEvent: () async {
                         bloc.add(ProfileEditUpdateEvent(
-                            request: AddRestaurantPostRequest(
+                            request: UpdateRestaurantPostRequest(
                               name: nameController.value.text,
                               mobileNumber: mobileController.value.text,
                               emailAddress: emailController.value.text,
@@ -131,7 +131,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                                     ? FileImage(File(imagePath))
                                     : FadeInImage(
                                         image: NetworkImage(
-                                            restaurant?.restaurantImageURL ??
+                                            "https://${restaurant?.restaurantImageURL}" ??
                                                 ""),
                                         placeholder: NetworkImage(
                                             'https://masterbundles.com/wp-content/uploads/2023/03/reestaurent-ai-676.jpg'),

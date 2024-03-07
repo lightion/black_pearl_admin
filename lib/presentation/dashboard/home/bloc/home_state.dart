@@ -5,7 +5,11 @@ abstract class HomeState extends Equatable {
   List<Object?> get props => [];
 }
 
-class HomeInitialState extends HomeState {}
+class HomeInitialState extends HomeState {
+  final bool status;
+
+  HomeInitialState({required this.status});
+}
 
 class HomeLoadingState extends HomeState {}
 
@@ -18,5 +22,5 @@ class HomeErrorState extends HomeState {
 class HomeMenuClickedState extends HomeState {
   final MenuType type;
 
-  HomeMenuClickedState ({required this.type});
+  HomeMenuClickedState({required this.type});
 }

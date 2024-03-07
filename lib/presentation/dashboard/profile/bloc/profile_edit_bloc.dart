@@ -4,6 +4,7 @@ import 'package:core/constants/app_constants.dart';
 import 'package:core/localstorage/shared_preference_service.dart';
 import 'package:domain/entities/restaurant/add_restaurant_post_request.dart';
 import 'package:domain/entities/restaurant/restaurant_entity.dart';
+import 'package:domain/entities/restaurant/update_restaurant_post_request.dart';
 import 'package:domain/usecases/get_restaurant_by_mobile_usecase.dart';
 import 'package:domain/usecases/post_update_restaurant_usecase.dart';
 import 'package:domain/usecases/post_upload_image_usecase.dart';
@@ -85,7 +86,7 @@ class ProfileEditBloc extends Bloc<ProfileEditEvent, ProfileEditState> {
     }
 
     final response =
-        await updateRestaurantUseCase.call(AddRestaurantPostRequest(
+        await updateRestaurantUseCase.call(UpdateRestaurantPostRequest(
       id: restId.isNotEmpty ? int.parse(restId) : 1002,
       name: event.request.name,
       mobileNumber: event.request.mobileNumber,

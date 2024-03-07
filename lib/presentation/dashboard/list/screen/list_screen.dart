@@ -83,7 +83,7 @@ class _ListScreenState extends State<ListScreen> {
                   Visibility(
                     visible: lunchMenu != null,
                     child: ListMenuCard(
-                      imageURL: lunchMenu?.menuImageURL ?? "",
+                      imageURL: "https://${lunchMenu?.menuImageURL}",
                       title: "Lunch",
                       deleteButtonPressed: (){},
                     ),
@@ -91,7 +91,7 @@ class _ListScreenState extends State<ListScreen> {
                   Visibility(
                     visible: dinnerMenu != null,
                     child: ListMenuCard(
-                      imageURL: dinnerMenu?.menuImageURL ?? "",
+                      imageURL: "https://${dinnerMenu?.menuImageURL}",
                       title: "Dinner",
                       deleteButtonPressed: (){},
                     ),

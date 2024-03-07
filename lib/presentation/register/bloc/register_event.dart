@@ -16,5 +16,10 @@ class RegisterFilledEvent extends RegisterEvent {}
 class RegisterSubmitEvent extends RegisterEvent {
   final AddRestaurantPostRequest request;
 
-  RegisterSubmitEvent({required this.request});
+  final String imagePath;
+
+  RegisterSubmitEvent({
+    required this.imagePath,
+    required this.request,
+  });
 }
