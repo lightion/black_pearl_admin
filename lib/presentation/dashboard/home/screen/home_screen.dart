@@ -119,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           onToggleCallback: (value) {
 
                           },
-                          buttonColor: const Color(0xFF0A3157),
+                          buttonColor: Colors.green,
                           backgroundColor: const Color(0xFFB5C1CC),
                           textColor: const Color(0xFFFFFFFF),
                         ),

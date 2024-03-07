@@ -70,6 +70,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
             imagePath = state.path;
           }
           if (state is ProfileEditUpdateSuccessState) {
+            restaurant = null;
             Beamer.of(context).beamBack();
           }
         },
@@ -80,6 +81,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
               leading: BackButton(
                 color: ColorConstants.black,
                 onPressed: () {
+                  restaurant = null;
                   Beamer.of(context).beamBack();
                 },
               ),

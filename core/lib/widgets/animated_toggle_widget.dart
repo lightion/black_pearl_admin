@@ -76,7 +76,7 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
               width: MediaQuery.of(context).size.width * 0.33,
               height: MediaQuery.of(context).size.width * 0.13,
               decoration: ShapeDecoration(
-                color: widget.buttonColor,
+                color: initialPosition? widget.buttonColor : Color(0xffdc3729),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.1),
                 ),
