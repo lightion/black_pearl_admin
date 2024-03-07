@@ -18,4 +18,8 @@ abstract class RestaurantService extends ChopperService {
 
   @Post(path: 'WebApi/api/restaurants/Restaurant/AddNewRestaurant')
   Future<Response> postAddRestaurant(@Body() AddRestaurantPostRequest request);
+
+  @Post(path: 'WebApi/api/restaurants/Restaurant/UpdateRestaurant')
+  Future<Response> postUpdateRestaurant(
+      @Body() AddRestaurantPostRequest request);
 }

@@ -8,5 +8,13 @@ abstract class MenuService extends ChopperService {
   static MenuService create([ChopperClient? client]) => _$MenuService(client);
 
   @Post(path: 'WebApi/api/restaurants/RestaurantMenu/AddNewRestaurantMenu')
-  Future<Response> postAddMenu(AddMenuPostRequest request);
+  Future<Response> postAddMenu(@Body() AddMenuPostRequest request);
+
+  @Get(path: 'WebApi/api/restaurants/RestaurantMenu/GetRestaurantMenuByType')
+  Future<Response> getMenu(
+    @Query('restaurantId') int restId,
+    @Query('type') String menuType,
+  );
+
+
 }

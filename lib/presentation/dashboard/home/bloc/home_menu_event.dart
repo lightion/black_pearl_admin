@@ -10,16 +10,32 @@ class HomeMenuImagePickerClickedEvent extends HomeMenuEvent {
 class HomeMenuLoadingEvent extends HomeMenuEvent {
   @override
   List<Object?> get props => [];
-
 }
 
 class HomeMenuUploadImageEvent extends HomeMenuEvent {
-
   final int restId;
 
-  final List<int> image;
+  final MultipartFile image;
 
-  HomeMenuUploadImageEvent({required this.restId, required this.image});
+  final MenuType menuType;
+
+  HomeMenuUploadImageEvent(
+      {required this.restId, required this.image, required this.menuType});
+
+  @override
+  List<Object?> get props => [];
+}
+
+class HomeMenuUploadMenuEvent extends HomeMenuEvent {
+  final int restId;
+  final String imageUrl;
+  final MenuType menuType;
+
+  HomeMenuUploadMenuEvent({
+    required this.restId,
+    required this.imageUrl,
+    required this.menuType,
+  });
 
   @override
   List<Object?> get props => [];

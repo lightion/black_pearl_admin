@@ -1,4 +1,6 @@
 import 'package:chopper/chopper.dart';
+import 'package:http/http.dart' as http;
+
 
 part 'restaurant_image_service.chopper.dart';
 
@@ -7,8 +9,9 @@ abstract class RestaurantImageService extends ChopperService {
   static RestaurantImageService create([ChopperClient? client]) =>
       _$RestaurantImageService(client);
 
-  @Post(path: 'WebApi/api/restaurants/Restaurant/UploadRestaurantImage')
+  @Post(
+      path: 'WebApi/api/restaurants/RestaurantMenu/UploadMenuImage',
+      headers: {'Content-Type': 'multipart/form-data'})
   @multipart
-  Future<Response> uploadImage(
-      @Part('restId') int id, @PartFile('file') List<int> image);
+  Future<Response> uploadImage(@PartFile('file') http.MultipartFile image);
 }

@@ -2,24 +2,38 @@ import 'package:black_pearl/presentation/login/bloc/login_bloc.dart';
 import 'package:core/localstorage/shared_preference_service.dart';
 import 'package:data/core/chopper_client.dart';
 import 'package:data/core/image_chopper_client.dart';
+
+//Mapper
 import 'package:data/mappers/add_restaurant_mapper.dart';
+import 'package:data/mappers/image/add_image_mapper.dart';
+import 'package:data/mappers/menu/get_menu_mapper.dart';
 import 'package:data/mappers/restaurant_mapper.dart';
 import 'package:data/mappers/restaurants_mapper.dart';
 import 'package:data/mappers/menu/add_menu_mapper.dart';
+
+//Service
 import 'package:data/repository/phone_auth_repository.dart';
 import 'package:data/services/restaurant_image_service.dart';
 import 'package:data/services/restaurant_service.dart';
 import 'package:data/services/menu/menu_service.dart';
+
+//Remote DataSource
 import 'package:data/datasources/restaurant_remote_data_source.dart';
 import 'package:data/datasources/menu/menu_remote_data_source.dart';
+
+//Repository
 import 'package:domain/repositories/menu/menu_repository.dart';
 import 'package:domain/repositories/restaurant_repository.dart';
 import 'package:data/repository/restaurant_repository_impl.dart';
 import 'package:data/repository/menu/menu_repository_impl.dart';
+
+//Usecase
 import 'package:domain/usecases/get_restaurants_usecase.dart';
 import 'package:domain/usecases/get_restaurant_by_mobile_usecase.dart';
 import 'package:domain/usecases/post_add_restaurant_usecase.dart';
+import 'package:domain/usecases/post_update_restaurant_usecase.dart';
 import 'package:domain/usecases/menu/post_add_menu_usecase.dart';
+import 'package:domain/usecases/menu/get_menu_usecase.dart';
 import 'package:domain/usecases/post_upload_image_usecase.dart';
 import 'package:get_it/get_it.dart';
 
@@ -53,11 +67,15 @@ getItInit() async {
       () => GetRestaurantByMobileUseCase(repository: getIt()));
   getIt.registerLazySingleton<PostAddRestaurantUseCase>(
       () => PostAddRestaurantUseCase(repository: getIt()));
+  getIt.registerLazySingleton<PostUpdateRestaurantUseCase>(
+          () => PostUpdateRestaurantUseCase(repository: getIt()));
   getIt.registerLazySingleton<PostAddMenuUseCase>(
       () => PostAddMenuUseCase(repository: getIt()));
 
   getIt.registerLazySingleton<PostUploadImageUseCase>(
       () => PostUploadImageUseCase(repository: getIt()));
+  getIt.registerLazySingleton<GetMenuUseCase>(
+      () => GetMenuUseCase(repository: getIt()));
 
   //Repository
   final authRepository = PhoneAuthRepository();
@@ -69,10 +87,12 @@ getItInit() async {
             mapper: getIt(),
             restaurantMapper: getIt(),
             addRestaurantMapper: getIt(),
+            addImageMapper: getIt(),
           ));
   getIt.registerLazySingleton<MenuRepository>(() => MenuRepositoryImpl(
         remoteDataSource: getIt(),
         addMenuMapper: getIt(),
+        getMenuMapper: getIt(),
       ));
 
   // bloc
@@ -98,4 +118,6 @@ getItInit() async {
   getIt.registerLazySingleton<RestaurantMapper>(() => RestaurantMapper());
   getIt.registerLazySingleton<AddRestaurantMapper>(() => AddRestaurantMapper());
   getIt.registerLazySingleton<AddMenuMapper>(() => AddMenuMapper());
+  getIt.registerLazySingleton<AddImageMapper>(() => AddImageMapper());
+  getIt.registerLazySingleton<GetMenuMapper>(() => GetMenuMapper());
 }

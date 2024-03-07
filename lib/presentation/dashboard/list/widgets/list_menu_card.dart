@@ -1,6 +1,5 @@
 import 'package:beamer/beamer.dart';
 import 'package:black_pearl/presentation/routes/app_route_name.dart';
-import 'package:core/theme/color_constants.dart';
 import 'package:core/theme/styles.dart';
 import 'package:core/widgets/outlined_button_widget.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,14 @@ class ListMenuCard extends StatefulWidget {
 
   final String title;
 
-  const ListMenuCard({required this.imageURL, required this.title, super.key});
+  final VoidCallback deleteButtonPressed;
+
+  const ListMenuCard({
+    required this.imageURL,
+    required this.title,
+    required this.deleteButtonPressed,
+    super.key,
+  });
 
   @override
   State<ListMenuCard> createState() => _ListMenuCardState();
@@ -25,6 +31,7 @@ class _ListMenuCardState extends State<ListMenuCard> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
+        surfaceTintColor: Colors.transparent,
         child: Padding(
           padding: const EdgeInsets.all(27.0),
           child: Row(
@@ -60,9 +67,18 @@ class _ListMenuCardState extends State<ListMenuCard> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          OutlinedButtonWidget(onTapEvent: () {}, text: "View"),
                           OutlinedButtonWidget(
-                              onTapEvent: () {}, text: "Delete"),
+                              onTapEvent: () {
+                                Beamer.of(context).beamToNamed(
+                                  AppRouteName.listDetails,
+                                  data: widget.imageURL,
+                                );
+                              },
+                              text: "View"),
+                          OutlinedButtonWidget(
+                            onTapEvent: () => widget.deleteButtonPressed,
+                            text: "Delete",
+                          ),
                         ],
                       ),
                     ),
@@ -72,7 +88,6 @@ class _ListMenuCardState extends State<ListMenuCard> {
             ],
           ),
         ),
-        surfaceTintColor: Colors.transparent,
       ),
     );
   }

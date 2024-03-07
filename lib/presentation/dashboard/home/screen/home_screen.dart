@@ -10,6 +10,7 @@ import 'package:core/widgets/loading_overlay_widget.dart';
 import 'package:domain/usecases/get_restaurant_by_mobile_usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:core/widgets/animated_toggle_widget.dart';
 
 import '../../../routes/app_route_name.dart';
 
@@ -92,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   Expanded(
-                    flex: 4,
+                    flex: 3,
                     child: Row(
                       children: [
                         Expanded(
@@ -109,6 +110,21 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ],
                     ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                      child: Center(
+                        child: AnimatedToggle(
+                          values: const ["Online", "Offline"],
+                          onToggleCallback: (value) {
+
+                          },
+                          buttonColor: const Color(0xFF0A3157),
+                          backgroundColor: const Color(0xFFB5C1CC),
+                          textColor: const Color(0xFFFFFFFF),
+                        ),
+                      ),
+
                   ),
                 ],
               ),

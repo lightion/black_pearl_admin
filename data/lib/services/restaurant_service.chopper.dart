@@ -59,4 +59,19 @@ final class _$RestaurantService extends RestaurantService {
     );
     return client.send<dynamic, dynamic>($request);
   }
+
+  @override
+  Future<Response<dynamic>> postUpdateRestaurant(
+      AddRestaurantPostRequest request) {
+    final Uri $url =
+        Uri.parse('/WebApi/api/restaurants/Restaurant/UpdateRestaurant');
+    final $body = request;
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
 }

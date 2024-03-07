@@ -17,6 +17,7 @@ import 'package:domain/usecases/menu/post_add_menu_usecase.dart';
 import 'package:domain/usecases/post_upload_image_usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 
 class HomeMenuScreen extends StatefulWidget {
@@ -34,7 +35,6 @@ class HomeMenuScreen extends StatefulWidget {
 class _HomeMenuScreenState extends State<HomeMenuScreen> {
   XFile? image;
   List<int>? imageBytes;
-
 
   final SharedPreferenceService preference = getIt<SharedPreferenceService>();
 
@@ -67,9 +67,9 @@ class _HomeMenuScreenState extends State<HomeMenuScreen> {
             image = state.pickedFile;
             final _imageFile = File(state.path);
 
-            imageBytes = await _imageFile.readAsBytes().whenComplete(() =>
-                loadingOverlay.hide()
-            );
+            imageBytes = await _imageFile
+                .readAsBytes()
+                .whenComplete(() => loadingOverlay.hide());
             print("image bytes: $imageBytes");
           }
 
@@ -149,9 +149,14 @@ class _HomeMenuScreenState extends State<HomeMenuScreen> {
                     await preference.readSecureData(AppConstants.prefId) ?? "";
                 if (imageBytes != null) {
                   bloc.add(HomeMenuUploadImageEvent(
-                    restId:
-                    1002,
-                    image: imageBytes!,
+                    restId: restaurantId.isNotEmpty
+                        ? int.parse(restaurantId)
+                        : 1002,
+                    image: await MultipartFile.fromPath(
+                      'file',
+                      image!.path,
+                    ),
+                    menuType: widget.menuType,
                   ));
                 }
               },

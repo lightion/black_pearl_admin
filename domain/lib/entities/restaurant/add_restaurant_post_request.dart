@@ -7,6 +7,7 @@
 
 class AddRestaurantPostRequest {
   AddRestaurantPostRequest({
+    num? id,
     String? name,
     String? mobileNumber,
     String? emailAddress,
@@ -14,6 +15,7 @@ class AddRestaurantPostRequest {
     String? restaurantImageURL,
     bool? status,
   }) {
+    _id = id;
     _name = name;
     _mobileNumber = mobileNumber;
     _emailAddress = emailAddress;
@@ -23,6 +25,7 @@ class AddRestaurantPostRequest {
   }
 
   AddRestaurantPostRequest.fromJson(dynamic json) {
+    _id = json['id'];
     _name = json['name'];
     _mobileNumber = json['mobileNumber'];
     _emailAddress = json['emailAddress'];
@@ -31,6 +34,7 @@ class AddRestaurantPostRequest {
     _status = json['status'];
   }
 
+  num? _id;
   String? _name;
   String? _mobileNumber;
   String? _emailAddress;
@@ -39,6 +43,7 @@ class AddRestaurantPostRequest {
   bool? _status;
 
   AddRestaurantPostRequest copyWith({
+    num? id,
     String? name,
     String? mobileNumber,
     String? emailAddress,
@@ -47,6 +52,7 @@ class AddRestaurantPostRequest {
     bool? status,
   }) =>
       AddRestaurantPostRequest(
+        id: id ?? _id,
         name: name ?? _name,
         mobileNumber: mobileNumber ?? _mobileNumber,
         emailAddress: emailAddress ?? _emailAddress,
@@ -54,6 +60,8 @@ class AddRestaurantPostRequest {
         restaurantImageURL: restaurantImageURL ?? _restaurantImageURL,
         status: status ?? _status,
       );
+
+  num? get id => _id;
 
   String? get name => _name;
 
@@ -69,6 +77,7 @@ class AddRestaurantPostRequest {
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
+    map['id'] = _id;
     map['name'] = _name;
     map['mobileNumber'] = _mobileNumber;
     map['emailAddress'] = _emailAddress;
