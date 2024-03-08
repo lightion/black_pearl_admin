@@ -12,4 +12,6 @@ abstract class MenuRepository {
     int restId,
     String menuType,
   );
+
+  Future<Either<Failure, void>> deleteMenu(int menuId);
 }

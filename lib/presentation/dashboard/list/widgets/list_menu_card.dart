@@ -75,8 +75,11 @@ class _ListMenuCardState extends State<ListMenuCard> {
                                 );
                               },
                               text: "View"),
+                          const SizedBox(
+                            width: 8,
+                          ),
                           OutlinedButtonWidget(
-                            onTapEvent: () => widget.deleteButtonPressed,
+                            onTapEvent: widget.deleteButtonPressed,
                             text: "Delete",
                           ),
                         ],

@@ -5,9 +5,9 @@ import 'package:core/localstorage/shared_preference_service.dart';
 import 'package:core/theme/color_constants.dart';
 import 'package:core/widgets/loading_overlay_widget.dart';
 import 'package:domain/entities/menu/get_menu_entity.dart';
+import 'package:domain/usecases/menu/delete_menu_usecase.dart';
 import 'package:domain/usecases/menu/get_menu_usecase.dart';
 import 'package:flutter/material.dart';
-import 'package:core/data/menu_item.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ListScreen extends StatefulWidget {
@@ -33,6 +33,7 @@ class _ListScreenState extends State<ListScreen> {
 
   final bloc = ListBloc(
     getMenuUseCase: getIt<GetMenuUseCase>(),
+    deleteMenuUseCase: getIt<DeleteMenuUseCase>(),
     preference: getIt<SharedPreferenceService>(),
   );
 
@@ -46,7 +47,7 @@ class _ListScreenState extends State<ListScreen> {
       create: (context) => bloc..add(ListInitialEvent()),
       child: BlocConsumer<ListBloc, ListState>(
         listener: (context, state) {
-          if(state is ListLoadingState) {
+          if (state is ListLoadingState) {
             _loadingOverlay.show(context);
           } else {
             _loadingOverlay.hide();
@@ -77,7 +78,7 @@ class _ListScreenState extends State<ListScreen> {
                   );
                 },
               ),*/
-              Column(
+                  Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Visibility(
@@ -85,7 +86,10 @@ class _ListScreenState extends State<ListScreen> {
                     child: ListMenuCard(
                       imageURL: "${lunchMenu?.menuImageURL}",
                       title: "Lunch",
-                      deleteButtonPressed: (){},
+                      deleteButtonPressed: () {
+                        bloc.add(ListDeleteEvent(
+                            menuId: lunchMenu?.id?.toInt() ?? 0));
+                      },
                     ),
                   ),
                   Visibility(
@@ -93,7 +97,10 @@ class _ListScreenState extends State<ListScreen> {
                     child: ListMenuCard(
                       imageURL: "${dinnerMenu?.menuImageURL}",
                       title: "Dinner",
-                      deleteButtonPressed: (){},
+                      deleteButtonPressed: () {
+                        bloc.add(ListDeleteEvent(
+                            menuId: dinnerMenu?.id?.toInt() ?? 0));
+                      },
                     ),
                   ),
                 ],

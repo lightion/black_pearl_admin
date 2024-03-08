@@ -6,3 +6,9 @@ abstract class ListEvent extends Equatable {
 }
 
 class ListInitialEvent extends ListEvent {}
+
+class ListDeleteEvent extends ListEvent {
+  final int menuId;
+
+  ListDeleteEvent({required this.menuId});
+}

@@ -2,12 +2,15 @@ import 'package:data/services/menu/menu_service.dart';
 import 'package:domain/entities/menu/add_menu_post_request.dart';
 
 import '../../models/menu/add_menu_response.dart';
+import '../../models/menu/delete_menu_response.dart';
 import '../../models/menu/get_menu_response.dart';
 
 abstract class MenuRemoteDataSource {
   Future<AddMenuResponse> postAddMenu(AddMenuPostRequest request);
 
   Future<GetMenuResponse> getMenu(int restId, String menuType);
+
+  Future<DeleteMenuResponse> deleteMenu(int menuId);
 }
 
 class MenuRemoteDataSourceImpl implements MenuRemoteDataSource {
@@ -35,6 +38,19 @@ class MenuRemoteDataSourceImpl implements MenuRemoteDataSource {
         response.statusCode == 200) {
       print("${response.body}");
       return GetMenuResponse.fromJson(response.body);
+    } else {
+      throw Exception("Response Code is : ${response.statusCode}");
+    }
+  }
+
+  @override
+  Future<DeleteMenuResponse> deleteMenu(int menuId) async {
+    final response = await menuService.deleteMenu(menuId);
+    if (response.isSuccessful &&
+        response.body != null &&
+        response.statusCode == 200) {
+      print("${response.body}");
+      return DeleteMenuResponse.fromJson(response.body);
     } else {
       throw Exception("Response Code is : ${response.statusCode}");
     }

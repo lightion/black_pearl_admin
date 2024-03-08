@@ -56,14 +56,14 @@ class _HomeScreenState extends State<HomeScreen> {
               data: state.type,
             );
           }
-          if(state is HomeInitialState) {
+          if (state is HomeInitialState) {
             status = state.status;
           }
         },
         builder: (context, state) {
           return SafeArea(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
                   Expanded(
@@ -100,38 +100,48 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Expanded(
                     flex: 3,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: menuWidget(
-                            menuType: MenuType.lunch,
-                            imageUrl: AssetImagePath.lunchMenuIcon,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: menuWidget(
+                              menuType: MenuType.lunch,
+                              imageUrl: AssetImagePath.lunchMenuIcon,
+                            ),
                           ),
-                        ),
-                        Expanded(
-                          child: menuWidget(
-                            menuType: MenuType.dinner,
-                            imageUrl: AssetImagePath.dinnerMenuIcon,
+                          Expanded(
+                            child: menuWidget(
+                              menuType: MenuType.dinner,
+                              imageUrl: AssetImagePath.dinnerMenuIcon,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   Expanded(
                     flex: 2,
-                      child: Center(
-                        child: AnimatedToggle(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        AnimatedToggle(
                           initialPosition: status,
                           values: const ["Online", "Offline"],
                           onToggleCallback: (value) {
-                            bloc.add(HomeToggleClickedEvent(updateStatus: !status));
+                            bloc.add(HomeToggleClickedEvent(
+                                updateStatus: !status));
                           },
                           buttonColor: Colors.green,
                           backgroundColor: const Color(0xFFB5C1CC),
                           textColor: const Color(0xFFFFFFFF),
                         ),
-                      ),
-
+                        status
+                            ? const Text("Your Restaurant is Online")
+                            : const Text("Your Restaurant is Offline"),
+                      ],
+                    ),
                   ),
                 ],
               ),

@@ -26,7 +26,7 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width* 0.6,
-      height: MediaQuery.of(context).size.width * 0.13,
+      height: MediaQuery.of(context).size.width * 0.11,
       margin: const EdgeInsets.all(20),
       child: Stack(
         children: <Widget>[
@@ -42,7 +42,7 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
             },
             child: Container(
               width: MediaQuery.of(context).size.width * 0.6,
-              height: MediaQuery.of(context).size.width * 0.13,
+              height: MediaQuery.of(context).size.width * 0.11,
               decoration: ShapeDecoration(
                 color: widget.backgroundColor,
                 shape: RoundedRectangleBorder(
@@ -76,7 +76,7 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
             widget.initialPosition ? Alignment.centerLeft : Alignment.centerRight,
             child: Container(
               width: MediaQuery.of(context).size.width * 0.33,
-              height: MediaQuery.of(context).size.width * 0.13,
+              height: MediaQuery.of(context).size.width * 0.11,
               decoration: ShapeDecoration(
                 color: widget.initialPosition? widget.buttonColor : Color(0xffdc3729),
                 shape: RoundedRectangleBorder(

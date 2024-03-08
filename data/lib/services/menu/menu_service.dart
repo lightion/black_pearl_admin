@@ -16,5 +16,8 @@ abstract class MenuService extends ChopperService {
     @Query('type') String menuType,
   );
 
-
+  @Delete(path: 'WebApi/api/restaurants/RestaurantMenu/DeleteMenuById')
+  Future<Response> deleteMenu(
+    @Query('id') int menuId,
+  );
 }

@@ -30,3 +30,5 @@ class ListDinnerSuccessState extends ListState {
 class ListLunchFailedState extends ListState {}
 
 class ListDinnerFailedState extends ListState {}
+
+class ListDeleteSuccessState extends ListState {}

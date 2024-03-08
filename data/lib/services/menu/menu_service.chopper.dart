@@ -50,4 +50,18 @@ final class _$MenuService extends MenuService {
     );
     return client.send<dynamic, dynamic>($request);
   }
+
+  @override
+  Future<Response<dynamic>> deleteMenu(int menuId) {
+    final Uri $url =
+        Uri.parse('/WebApi/api/restaurants/RestaurantMenu/DeleteMenuById');
+    final Map<String, dynamic> $params = <String, dynamic>{'id': menuId};
+    final Request $request = Request(
+      'DELETE',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
 }

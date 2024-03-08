@@ -6,6 +6,7 @@ import 'package:data/core/image_chopper_client.dart';
 //Mapper
 import 'package:data/mappers/add_restaurant_mapper.dart';
 import 'package:data/mappers/image/add_image_mapper.dart';
+import 'package:data/mappers/menu/delete_menu_mapper.dart';
 import 'package:data/mappers/menu/get_menu_mapper.dart';
 import 'package:data/mappers/restaurant_mapper.dart';
 import 'package:data/mappers/restaurants_mapper.dart';
@@ -36,6 +37,7 @@ import 'package:domain/usecases/post_update_restaurant_status_usecase.dart';
 import 'package:domain/usecases/post_update_restaurant_usecase.dart';
 import 'package:domain/usecases/menu/post_add_menu_usecase.dart';
 import 'package:domain/usecases/menu/get_menu_usecase.dart';
+import 'package:domain/usecases/menu/delete_menu_usecase.dart';
 import 'package:domain/usecases/post_upload_image_usecase.dart';
 import 'package:get_it/get_it.dart';
 
@@ -80,6 +82,8 @@ getItInit() async {
       () => GetMenuUseCase(repository: getIt()));
   getIt.registerLazySingleton<PostUpdateRestaurantStatusUseCase>(
       () => PostUpdateRestaurantStatusUseCase(repository: getIt()));
+  getIt.registerLazySingleton<DeleteMenuUseCase>(
+      () => DeleteMenuUseCase(repository: getIt()));
 
   //Repository
   final authRepository = PhoneAuthRepository();
@@ -98,6 +102,7 @@ getItInit() async {
         remoteDataSource: getIt(),
         addMenuMapper: getIt(),
         getMenuMapper: getIt(),
+        deleteMenuMapper: getIt(),
       ));
 
   // bloc
@@ -127,4 +132,5 @@ getItInit() async {
   getIt.registerLazySingleton<GetMenuMapper>(() => GetMenuMapper());
   getIt.registerLazySingleton<UpdateRestaurantStatusMapper>(
       () => UpdateRestaurantStatusMapper());
+  getIt.registerLazySingleton<DeleteMenuMapper>(() => DeleteMenuMapper());
 }

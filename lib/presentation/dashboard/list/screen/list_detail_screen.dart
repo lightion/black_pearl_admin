@@ -29,15 +29,13 @@ class _ListDetailScreenState extends State<ListDetailScreen> {
       ),
       backgroundColor: ColorConstants.antiFlashWhite,
       body: SafeArea(
-        child: Expanded(
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                height: 500,
-                width: 400,
-                child: Image.network(widget.url),
-              ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SizedBox(
+              height: 500,
+              width: 400,
+              child: Image.network(widget.url),
             ),
           ),
         ),
