@@ -131,7 +131,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                                     ? FileImage(File(imagePath))
                                     : FadeInImage(
                                         image: NetworkImage(
-                                            "https://${restaurant?.restaurantImageURL}" ??
+                                            "${restaurant?.restaurantImageURL}" ??
                                                 ""),
                                         placeholder: NetworkImage(
                                             'https://masterbundles.com/wp-content/uploads/2023/03/reestaurent-ai-676.jpg'),
