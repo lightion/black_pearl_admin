@@ -28,6 +28,8 @@ abstract class RestaurantRemoteDataSource {
   );
 
   Future<AddImageResponse> uploadImage(http.MultipartFile image, int id);
+
+  Future<AddImageResponse> uploadRestaurantImage(http.MultipartFile image);
 }
 
 class RestaurantRemoteDataSourceImpl implements RestaurantRemoteDataSource {
@@ -129,6 +131,17 @@ class RestaurantRemoteDataSourceImpl implements RestaurantRemoteDataSource {
         response.body != null &&
         response.statusCode == 200) {
       return UpdateRestaurantStatusResponse.fromJson(response.body);
+    } else {
+      throw Exception("Response Code is : ${response.statusCode}");
+    }
+  }
+
+  @override
+  Future<AddImageResponse> uploadRestaurantImage(
+      http.MultipartFile image) async {
+    final response = await restaurantImageService.uploadRestaurantImage(image);
+    if (response.isSuccessful && response.statusCode == 200) {
+      return AddImageResponse.fromJson(response.body);
     } else {
       throw Exception("Response Code is : ${response.statusCode}");
     }

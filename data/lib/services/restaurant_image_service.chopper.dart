@@ -40,4 +40,28 @@ final class _$RestaurantImageService extends RestaurantImageService {
     );
     return client.send<dynamic, dynamic>($request);
   }
+
+  @override
+  Future<Response<dynamic>> uploadRestaurantImage(http.MultipartFile image) {
+    final Uri $url =
+        Uri.parse('/WebApi/api/restaurants/Restaurant/UploadRestaurantImage');
+    final Map<String, String> $headers = {
+      'Content-Type': 'multipart/form-data',
+    };
+    final List<PartValue> $parts = <PartValue>[
+      PartValueFile<http.MultipartFile>(
+        'file',
+        image,
+      )
+    ];
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      parts: $parts,
+      multipart: true,
+      headers: $headers,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
 }

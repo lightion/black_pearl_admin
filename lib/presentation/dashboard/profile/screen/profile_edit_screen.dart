@@ -13,7 +13,7 @@ import 'package:domain/entities/restaurant/restaurant_entity.dart';
 import 'package:domain/entities/restaurant/update_restaurant_post_request.dart';
 import 'package:domain/usecases/get_restaurant_by_mobile_usecase.dart';
 import 'package:domain/usecases/post_update_restaurant_usecase.dart';
-import 'package:domain/usecases/post_upload_image_usecase.dart';
+import 'package:domain/usecases/post_upload_restaurant_image_usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -30,7 +30,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   final bloc = ProfileEditBloc(
     mobileUseCase: getIt<GetRestaurantByMobileUseCase>(),
     preference: getIt<SharedPreferenceService>(),
-    postUploadImageUseCase: getIt<PostUploadImageUseCase>(),
+    postUploadImageUseCase: getIt<PostUploadRestaurantImageUseCase>(),
     updateRestaurantUseCase: getIt<PostUpdateRestaurantUseCase>(),
   );
 

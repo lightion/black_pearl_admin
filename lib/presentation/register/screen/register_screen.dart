@@ -13,7 +13,7 @@ import 'package:core/widgets/button_widget.dart';
 import 'package:core/widgets/loading_overlay_widget.dart';
 import 'package:domain/entities/restaurant/add_restaurant_post_request.dart';
 import 'package:domain/usecases/post_add_restaurant_usecase.dart';
-import 'package:domain/usecases/post_upload_image_usecase.dart';
+import 'package:domain/usecases/post_upload_restaurant_image_usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,7 +33,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   final bloc = RegisterBloc(
     addRestaurantUseCase: getIt<PostAddRestaurantUseCase>(),
-    postUploadImageUseCase: getIt<PostUploadImageUseCase>(),
+    postUploadImageUseCase: getIt<PostUploadRestaurantImageUseCase>(),
     sharedPreference: getIt<SharedPreferenceService>(),
   );
 

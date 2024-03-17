@@ -32,4 +32,8 @@ abstract class RestaurantRepository {
     http.MultipartFile image,
     int id,
   );
+
+  Future<Either<Failure, AddImageEntity>> uploadRestaurantImage(
+    http.MultipartFile image,
+  );
 }

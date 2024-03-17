@@ -4,7 +4,7 @@ import 'package:core/constants/app_constants.dart';
 import 'package:core/localstorage/shared_preference_service.dart';
 import 'package:domain/entities/restaurant/add_restaurant_post_request.dart';
 import 'package:domain/usecases/post_add_restaurant_usecase.dart';
-import 'package:domain/usecases/post_upload_image_usecase.dart';
+import 'package:domain/usecases/post_upload_restaurant_image_usecase.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
@@ -16,7 +16,7 @@ part 'register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final PostAddRestaurantUseCase addRestaurantUseCase;
-  final PostUploadImageUseCase postUploadImageUseCase;
+  final PostUploadRestaurantImageUseCase postUploadImageUseCase;
   final SharedPreferenceService sharedPreference;
 
   RegisterBloc({
@@ -51,7 +51,9 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         'file',
         event.imagePath,
       );
-      final response = await postUploadImageUseCase.call(imageFile, 0);
+      final response = await postUploadImageUseCase.call(
+        imageFile,
+      );
       if (isClosed) return;
       response.fold(
         (failure) =>

@@ -2,12 +2,12 @@ import 'dart:async';
 
 import 'package:core/constants/app_constants.dart';
 import 'package:core/localstorage/shared_preference_service.dart';
-import 'package:domain/entities/restaurant/add_restaurant_post_request.dart';
 import 'package:domain/entities/restaurant/restaurant_entity.dart';
 import 'package:domain/entities/restaurant/update_restaurant_post_request.dart';
 import 'package:domain/usecases/get_restaurant_by_mobile_usecase.dart';
 import 'package:domain/usecases/post_update_restaurant_usecase.dart';
 import 'package:domain/usecases/post_upload_image_usecase.dart';
+import 'package:domain/usecases/post_upload_restaurant_image_usecase.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
@@ -22,7 +22,7 @@ class ProfileEditBloc extends Bloc<ProfileEditEvent, ProfileEditState> {
 
   final SharedPreferenceService preference;
 
-  final PostUploadImageUseCase postUploadImageUseCase;
+  final PostUploadRestaurantImageUseCase postUploadImageUseCase;
 
   final PostUpdateRestaurantUseCase updateRestaurantUseCase;
 
@@ -76,7 +76,9 @@ class ProfileEditBloc extends Bloc<ProfileEditEvent, ProfileEditState> {
         'file',
         event.imagePath,
       );
-      final response = await postUploadImageUseCase.call(imageFile, 0);
+      final response = await postUploadImageUseCase.call(
+        imageFile,
+      );
       if (isClosed) return;
       response.fold(
         (failure) =>

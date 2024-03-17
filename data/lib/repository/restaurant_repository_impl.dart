@@ -104,4 +104,16 @@ class RestaurantRepositoryImpl implements RestaurantRepository {
       return Left(ServerFailure(description: exception.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, AddImageEntity>> uploadRestaurantImage(
+      http.MultipartFile image) async {
+    try {
+      final response = await remoteDataSource.uploadRestaurantImage(image);
+      return Right(addImageMapper.parseToView(response));
+    } on Exception catch (exception) {
+      print("ServerFailure: ${exception.toString()}");
+      return Left(ServerFailure(description: exception.toString()));
+    }
+  }
 }

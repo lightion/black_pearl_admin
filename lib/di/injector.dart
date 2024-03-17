@@ -39,6 +39,7 @@ import 'package:domain/usecases/menu/post_add_menu_usecase.dart';
 import 'package:domain/usecases/menu/get_menu_usecase.dart';
 import 'package:domain/usecases/menu/delete_menu_usecase.dart';
 import 'package:domain/usecases/post_upload_image_usecase.dart';
+import 'package:domain/usecases/post_upload_restaurant_image_usecase.dart';
 import 'package:get_it/get_it.dart';
 
 final getIt = GetIt.instance;
@@ -78,6 +79,8 @@ getItInit() async {
 
   getIt.registerLazySingleton<PostUploadImageUseCase>(
       () => PostUploadImageUseCase(repository: getIt()));
+  getIt.registerLazySingleton<PostUploadRestaurantImageUseCase>(
+          () => PostUploadRestaurantImageUseCase(repository: getIt()));
   getIt.registerLazySingleton<GetMenuUseCase>(
       () => GetMenuUseCase(repository: getIt()));
   getIt.registerLazySingleton<PostUpdateRestaurantStatusUseCase>(
