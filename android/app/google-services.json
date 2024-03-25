@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "614430845237",
-    "project_id": "black-pearl-admin",
-    "storage_bucket": "black-pearl-admin.appspot.com"
+    "project_number": "466053465743",
+    "project_id": "black-pearl-user",
+    "storage_bucket": "black-pearl-user.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:614430845237:android:162dc5f5a16df58cbcc47c",
+        "mobilesdk_app_id": "1:466053465743:android:c37a06bf1d192c83fdd2fa",
         "android_client_info": {
           "package_name": "in.codephoenix.black_pearl"
         }
@@ -15,7 +15,26 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDDL_yunl9ZUEjIk71XfKK3H-QtVzLOZPE"
+          "current_key": "AIzaSyAVRmFty5FvrFQhzxv7ZmChDvJ1mkZN6EM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:466053465743:android:7a0d0936b32feb8bfdd2fa",
+        "android_client_info": {
+          "package_name": "in.codephoenix.black_pearl.user.black_pearl_user"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVRmFty5FvrFQhzxv7ZmChDvJ1mkZN6EM"
         }
       ],
       "services": {

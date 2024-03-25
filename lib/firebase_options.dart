@@ -50,19 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDDL_yunl9ZUEjIk71XfKK3H-QtVzLOZPE',
-    appId: '1:614430845237:android:162dc5f5a16df58cbcc47c',
-    messagingSenderId: '614430845237',
-    projectId: 'black-pearl-admin',
-    storageBucket: 'black-pearl-admin.appspot.com',
+    apiKey: 'AIzaSyAVRmFty5FvrFQhzxv7ZmChDvJ1mkZN6EM',
+    appId: '1:466053465743:android:c37a06bf1d192c83fdd2fa',
+    messagingSenderId: '466053465743',
+    projectId: 'black-pearl-user',
+    storageBucket: 'black-pearl-user.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDIjOYgpE4Frj7A2MYSQEmHqSspguVNHvI',
-    appId: '1:614430845237:ios:8327fd088a503b13bcc47c',
-    messagingSenderId: '614430845237',
-    projectId: 'black-pearl-admin',
-    storageBucket: 'black-pearl-admin.appspot.com',
+    apiKey: 'AIzaSyBBIp-bJRJIUcsv24fQEX3dYlmCZZ9eCJU',
+    appId: '1:466053465743:ios:846b4c1a3655092cfdd2fa',
+    messagingSenderId: '466053465743',
+    projectId: 'black-pearl-user',
+    storageBucket: 'black-pearl-user.appspot.com',
     iosBundleId: 'in.codephoenix.blackPearl',
   );
 }
