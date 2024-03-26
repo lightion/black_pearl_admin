@@ -40,14 +40,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     final result = await mobileUseCase.call(mobileNumber);
 
     if (isClosed) return;
-    result.fold((failure) {
+    await result.fold((failure) async {
       emit(HomeErrorState(error: "Api Failed"));
-    }, (success) {
+    }, (success) async {
       // preference.writeSecureData(
       //   AppConstants.prefId,
       //   success.id,
       // );
-      emit(HomeInitialState(status: success.status ?? false));
+      await Future.delayed(const Duration(milliseconds: 500), () {
+        emit(HomeInitialState(status: success.status ?? false));
+      });
     });
   }
 

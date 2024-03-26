@@ -35,7 +35,12 @@ class _ListDetailScreenState extends State<ListDetailScreen> {
             child: SizedBox(
               height: 500,
               width: 400,
-              child: Image.network(widget.url),
+              child: InteractiveViewer(
+                panEnabled: false,
+                minScale: 0.5,
+                maxScale: 2.0,
+                child: Image.network(widget.url),
+              ),
             ),
           ),
         ),
