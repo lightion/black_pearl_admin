@@ -47,7 +47,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       //   AppConstants.prefId,
       //   success.id,
       // );
-      await Future.delayed(const Duration(milliseconds: 500), () {
+      await Future.delayed(const Duration(milliseconds: 1000), () {
         emit(HomeInitialState(status: success.status ?? false));
       });
     });

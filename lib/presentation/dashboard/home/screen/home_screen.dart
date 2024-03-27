@@ -130,8 +130,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           initialPosition: status,
                           values: const ["Online", "Offline"],
                           onToggleCallback: (value) {
-                            bloc.add(HomeToggleClickedEvent(
-                                updateStatus: !status));
+                            bloc.add(
+                                HomeToggleClickedEvent(updateStatus: !status));
                           },
                           buttonColor: Colors.green,
                           backgroundColor: const Color(0xFFB5C1CC),

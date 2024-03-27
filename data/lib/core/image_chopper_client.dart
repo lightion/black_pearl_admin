@@ -14,9 +14,9 @@ class ImageChopperClient {
         errorConverter: JsonConverter(),
         // authenticator: ApiAuthenticator(),
         interceptors: [
-              (Request request) async {
+          (Request request) async {
             final authToken =
-            base64Encode(utf8.encode("theblackpearl:GreenWaves!1230"));
+                base64Encode(utf8.encode("theblackpearl:GreenWaves!1230"));
             return request.copyWith(headers: {
               'Authorization': 'Basic $authToken',
               'Content-Type': 'multipart/form-data'

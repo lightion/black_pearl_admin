@@ -55,7 +55,6 @@ class AddRestaurantPostRequest {
         status: status ?? _status,
       );
 
-
   String? get name => _name;
 
   String? get mobileNumber => _mobileNumber;

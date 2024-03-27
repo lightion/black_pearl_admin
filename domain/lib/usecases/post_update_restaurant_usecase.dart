@@ -11,8 +11,8 @@ class PostUpdateRestaurantUseCase {
   PostUpdateRestaurantUseCase({required this.repository});
 
   Future<Either<Failure, AddRestaurantEntity>> call(
-      UpdateRestaurantPostRequest request,
-      ) async {
+    UpdateRestaurantPostRequest request,
+  ) async {
     return await repository.postUpdateRestaurant(request);
   }
 }

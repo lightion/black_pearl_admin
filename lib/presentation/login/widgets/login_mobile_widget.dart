@@ -24,7 +24,6 @@ class LoginMobileWidget extends StatefulWidget {
 }
 
 class _LoginMobileWidgetState extends State<LoginMobileWidget> {
-
   @override
   void initState() {
     super.initState();

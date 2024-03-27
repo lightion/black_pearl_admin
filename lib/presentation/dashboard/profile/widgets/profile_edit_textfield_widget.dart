@@ -25,7 +25,6 @@ class ProfileEditTextFieldWidget extends StatefulWidget {
     this.isEnabled = true,
   });
 
-
   @override
   State<ProfileEditTextFieldWidget> createState() =>
       _ProfileEditTextFieldWidgetState();
@@ -38,6 +37,7 @@ class _ProfileEditTextFieldWidgetState
     super.initState();
     widget.textEditingController.text = widget.value;
   }
+
   @override
   Widget build(BuildContext context) {
     return Flexible(
@@ -58,14 +58,14 @@ class _ProfileEditTextFieldWidgetState
                 Radius.circular(8),
               ),
               borderSide:
-              BorderSide(color: ColorConstants.lavenderMist, width: 2),
+                  BorderSide(color: ColorConstants.lavenderMist, width: 2),
             ),
             focusedBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(8),
               ),
               borderSide:
-              BorderSide(color: ColorConstants.lavenderMist, width: 2),
+                  BorderSide(color: ColorConstants.lavenderMist, width: 2),
             ),
           ),
           style: Styles.h5w400,

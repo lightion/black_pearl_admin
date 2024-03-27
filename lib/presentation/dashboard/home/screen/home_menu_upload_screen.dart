@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:beamer/beamer.dart';
@@ -8,11 +7,9 @@ import 'package:core/constants/app_constants.dart';
 import 'package:core/enums/menu_type.dart';
 import 'package:core/localstorage/shared_preference_service.dart';
 import 'package:core/theme/color_constants.dart';
-import 'package:core/theme/styles.dart';
 import 'package:core/widgets/app_bar_widget.dart';
 import 'package:core/widgets/loading_overlay_widget.dart';
 import 'package:core/widgets/outlined_button_widget.dart';
-import 'package:domain/entities/menu/add_menu_post_request.dart';
 import 'package:domain/usecases/follow/get_follower_usecase.dart';
 import 'package:domain/usecases/menu/post_add_menu_usecase.dart';
 import 'package:domain/usecases/post_upload_image_usecase.dart';
@@ -35,7 +32,6 @@ class HomeMenuScreen extends StatefulWidget {
 
 class _HomeMenuScreenState extends State<HomeMenuScreen> {
   XFile? image;
-  List<int>? imageBytes;
 
   final SharedPreferenceService preference = getIt<SharedPreferenceService>();
 
@@ -67,12 +63,7 @@ class _HomeMenuScreenState extends State<HomeMenuScreen> {
           }
           if (state is HomeMenuImageSelectedSuccess) {
             image = state.pickedFile;
-            final _imageFile = File(state.path);
-
-            imageBytes = await _imageFile
-                .readAsBytes()
-                .whenComplete(() => loadingOverlay.hide());
-            print("image bytes: $imageBytes");
+            loadingOverlay.hide();
           }
 
           if (state is HomeMenuErrorState) {
@@ -149,18 +140,16 @@ class _HomeMenuScreenState extends State<HomeMenuScreen> {
               onTapEvent: () async {
                 final String restaurantId =
                     await preference.readSecureData(AppConstants.prefId) ?? "";
-                if (imageBytes != null) {
-                  bloc.add(HomeMenuUploadImageEvent(
-                    restId: restaurantId.isNotEmpty
-                        ? int.parse(restaurantId)
-                        : 1002,
-                    image: await MultipartFile.fromPath(
-                      'file',
-                      image!.path,
-                    ),
-                    menuType: widget.menuType,
-                  ));
-                }
+
+                bloc.add(HomeMenuUploadImageEvent(
+                  restId:
+                      restaurantId.isNotEmpty ? int.parse(restaurantId) : 1002,
+                  image: await MultipartFile.fromPath(
+                    'file',
+                    image!.path,
+                  ),
+                  menuType: widget.menuType,
+                ));
               },
               text: "Upload",
             ),

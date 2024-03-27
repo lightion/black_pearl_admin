@@ -8,7 +8,8 @@ class AnimatedToggle extends StatefulWidget {
   final Color textColor;
   bool initialPosition;
 
-  AnimatedToggle({super.key,
+  AnimatedToggle({
+    super.key,
     required this.values,
     required this.onToggleCallback,
     this.backgroundColor = const Color(0xFFe7e7e8),
@@ -25,7 +26,7 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width* 0.6,
+      width: MediaQuery.of(context).size.width * 0.6,
       height: MediaQuery.of(context).size.width * 0.11,
       margin: const EdgeInsets.all(20),
       child: Stack(
@@ -46,15 +47,17 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
               decoration: ShapeDecoration(
                 color: widget.backgroundColor,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.1),
+                  borderRadius: BorderRadius.circular(
+                      MediaQuery.of(context).size.width * 0.1),
                 ),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: List.generate(
                   widget.values.length,
-                      (index) => Padding(
-                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
+                  (index) => Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.05),
                     child: Text(
                       widget.values[index],
                       style: TextStyle(
@@ -72,15 +75,19 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
           AnimatedAlign(
             duration: const Duration(milliseconds: 250),
             curve: Curves.decelerate,
-            alignment:
-            widget.initialPosition ? Alignment.centerLeft : Alignment.centerRight,
+            alignment: widget.initialPosition
+                ? Alignment.centerLeft
+                : Alignment.centerRight,
             child: Container(
               width: MediaQuery.of(context).size.width * 0.33,
               height: MediaQuery.of(context).size.width * 0.11,
               decoration: ShapeDecoration(
-                color: widget.initialPosition? widget.buttonColor : Color(0xffdc3729),
+                color: widget.initialPosition
+                    ? widget.buttonColor
+                    : Color(0xffdc3729),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.1),
+                  borderRadius: BorderRadius.circular(
+                      MediaQuery.of(context).size.width * 0.1),
                 ),
               ),
               child: Text(

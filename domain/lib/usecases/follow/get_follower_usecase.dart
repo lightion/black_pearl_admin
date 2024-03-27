@@ -9,7 +9,8 @@ class GetFollowerUseCase {
   GetFollowerUseCase({required this.repository});
 
   Future<Either<Failure, List<FollowerEntity>>> call(
-      int restId,) async {
+    int restId,
+  ) async {
     return await repository.getAllFollowers(
       restId,
     );

@@ -8,23 +8,26 @@ import 'package:data/models/base/base_response.dart';
 
 class GetMenuResponse extends BaseResponse {
   GetMenuResponse({
-      String? responseStatus, 
-      bool? success, 
-      String? message, 
-      ResponseData? responseData, 
-      String? id,}){
+    String? responseStatus,
+    bool? success,
+    String? message,
+    ResponseData? responseData,
+    String? id,
+  }) {
     _responseStatus = responseStatus;
     _success = success;
     _message = message;
     _responseData = responseData;
     _id = id;
-}
+  }
 
   GetMenuResponse.fromJson(dynamic json) {
     _responseStatus = json['ResponseStatus'];
     _success = json['Success'];
     _message = json['Message'];
-    _responseData = json['ResponseData'] != null && json['ResponseData'] != "" ? ResponseData.fromJson(json['ResponseData']) : null;
+    _responseData = json['ResponseData'] != null && json['ResponseData'] != ""
+        ? ResponseData.fromJson(json['ResponseData'])
+        : null;
     _id = json['Id'];
   }
   String? _responseStatus;
@@ -32,17 +35,20 @@ class GetMenuResponse extends BaseResponse {
   String? _message;
   ResponseData? _responseData;
   String? _id;
-GetMenuResponse copyWith({  String? responseStatus,
-  bool? success,
-  String? message,
-  ResponseData? responseData,
-  String? id,
-}) => GetMenuResponse(  responseStatus: responseStatus ?? _responseStatus,
-  success: success ?? _success,
-  message: message ?? _message,
-  responseData: responseData ?? _responseData,
-  id: id ?? _id,
-);
+  GetMenuResponse copyWith({
+    String? responseStatus,
+    bool? success,
+    String? message,
+    ResponseData? responseData,
+    String? id,
+  }) =>
+      GetMenuResponse(
+        responseStatus: responseStatus ?? _responseStatus,
+        success: success ?? _success,
+        message: message ?? _message,
+        responseData: responseData ?? _responseData,
+        id: id ?? _id,
+      );
   String? get responseStatus => _responseStatus;
   bool? get success => _success;
   String? get message => _message;
@@ -60,7 +66,6 @@ GetMenuResponse copyWith({  String? responseStatus,
     map['Id'] = _id;
     return map;
   }
-
 }
 
 /// Id : 1009
@@ -72,19 +77,20 @@ GetMenuResponse copyWith({  String? responseStatus,
 
 class ResponseData {
   ResponseData({
-      num? id,
-      String? menuImageURL, 
-      String? menuType, 
-      String? uploadDate, 
-      num? restaurantId, 
-      dynamic restaurant,}){
+    num? id,
+    String? menuImageURL,
+    String? menuType,
+    String? uploadDate,
+    num? restaurantId,
+    dynamic restaurant,
+  }) {
     _id = id;
     _menuImageURL = menuImageURL;
     _menuType = menuType;
     _uploadDate = uploadDate;
     _restaurantId = restaurantId;
     _restaurant = restaurant;
-}
+  }
 
   ResponseData.fromJson(dynamic json) {
     _id = json['Id'];
@@ -100,19 +106,22 @@ class ResponseData {
   String? _uploadDate;
   num? _restaurantId;
   dynamic _restaurant;
-ResponseData copyWith({  num? id,
-  String? menuImageURL,
-  String? menuType,
-  String? uploadDate,
-  num? restaurantId,
-  dynamic restaurant,
-}) => ResponseData(  id: id ?? _id,
-  menuImageURL: menuImageURL ?? _menuImageURL,
-  menuType: menuType ?? _menuType,
-  uploadDate: uploadDate ?? _uploadDate,
-  restaurantId: restaurantId ?? _restaurantId,
-  restaurant: restaurant ?? _restaurant,
-);
+  ResponseData copyWith({
+    num? id,
+    String? menuImageURL,
+    String? menuType,
+    String? uploadDate,
+    num? restaurantId,
+    dynamic restaurant,
+  }) =>
+      ResponseData(
+        id: id ?? _id,
+        menuImageURL: menuImageURL ?? _menuImageURL,
+        menuType: menuType ?? _menuType,
+        uploadDate: uploadDate ?? _uploadDate,
+        restaurantId: restaurantId ?? _restaurantId,
+        restaurant: restaurant ?? _restaurant,
+      );
   num? get id => _id;
   String? get menuImageURL => _menuImageURL;
   String? get menuType => _menuType;
@@ -130,5 +139,4 @@ ResponseData copyWith({  num? id,
     map['Restaurant'] = _restaurant;
     return map;
   }
-
 }

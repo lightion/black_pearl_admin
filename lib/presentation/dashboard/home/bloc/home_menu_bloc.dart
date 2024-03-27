@@ -109,16 +109,6 @@ class HomeMenuBloc extends Bloc<HomeMenuEvent, HomeMenuState> {
         });
       });
     }).whenComplete(() => emit(HomeMenuImageUploadSuccessState()));
-    /* await sendPushMessage(
-      "eIFad23vTLuzaFlZn2zb89:APA91bHcQkC_JgNWBDrc9eZono4hPj7VNjXGLjKgN1g0gWkUhaQV-p51kOmhrPa8_OCgpEtYHeysygnBfkpfiYeUiQgBQqiD_uUsTEnET_bWmd7CDUZS_WBHrq9aEH0JqCAH__arveM9",
-      "Teal Restaurant",
-      "New Menu Uploaded",
-    ).whenComplete(() => emit(HomeMenuImageUploadSuccessState()));
-  }
-
-  ,
-
-  );*/
   }
 
   Future<void> sendPushMessage(

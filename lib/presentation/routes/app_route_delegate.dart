@@ -26,7 +26,9 @@ class RouteDelegator {
           return const DashboardScreen();
         },
         AppRouteName.homeMenu: (context, state, data) {
-          return HomeMenuScreen(menuType: data as MenuType,);
+          return HomeMenuScreen(
+            menuType: data as MenuType,
+          );
         },
         AppRouteName.listDetails: (context, state, data) {
           return ListDetailScreen(url: data as String);
