@@ -13,4 +13,5 @@ class AppConstants {
   /// preference constants
   static const String prefId = "pref_id";
   static const String prefMobileNumber = "pref_mobile_number";
+  static const String prefRestaurantName = "pref_restaurant_name";
 }

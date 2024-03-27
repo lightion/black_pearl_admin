@@ -12,22 +12,27 @@ import 'package:data/mappers/restaurant_mapper.dart';
 import 'package:data/mappers/restaurants_mapper.dart';
 import 'package:data/mappers/menu/add_menu_mapper.dart';
 import 'package:data/mappers/update_restaurant_status_mapper.dart';
+import 'package:data/mappers/follow/get_follower_mapper.dart';
 
 //Service
 import 'package:data/repository/phone_auth_repository.dart';
 import 'package:data/services/restaurant_image_service.dart';
 import 'package:data/services/restaurant_service.dart';
 import 'package:data/services/menu/menu_service.dart';
+import 'package:data/services/follow/follow_service.dart';
 
 //Remote DataSource
 import 'package:data/datasources/restaurant_remote_data_source.dart';
 import 'package:data/datasources/menu/menu_remote_data_source.dart';
+import 'package:data/datasources/follow/follow_remote_data_source.dart';
+import 'package:domain/repositories/follow/follow_repository.dart';
 
 //Repository
 import 'package:domain/repositories/menu/menu_repository.dart';
 import 'package:domain/repositories/restaurant_repository.dart';
 import 'package:data/repository/restaurant_repository_impl.dart';
 import 'package:data/repository/menu/menu_repository_impl.dart';
+import 'package:data/repository/follow/follow_repository_impl.dart';
 
 //Usecase
 import 'package:domain/usecases/get_restaurants_usecase.dart';
@@ -40,6 +45,7 @@ import 'package:domain/usecases/menu/get_menu_usecase.dart';
 import 'package:domain/usecases/menu/delete_menu_usecase.dart';
 import 'package:domain/usecases/post_upload_image_usecase.dart';
 import 'package:domain/usecases/post_upload_restaurant_image_usecase.dart';
+import 'package:domain/usecases/follow/get_follower_usecase.dart';
 import 'package:get_it/get_it.dart';
 
 final getIt = GetIt.instance;
@@ -57,6 +63,7 @@ getItInit() async {
   final restaurantService = RestaurantService.create(client);
   final menuService = MenuService.create(client);
   final restaurantImageService = RestaurantImageService.create(imageClient);
+  final followService = FollowService.create(client);
 
   getIt.registerLazySingleton<RestaurantService>(() => restaurantService);
   getIt.registerLazySingleton<MenuService>(() => menuService);
@@ -80,13 +87,18 @@ getItInit() async {
   getIt.registerLazySingleton<PostUploadImageUseCase>(
       () => PostUploadImageUseCase(repository: getIt()));
   getIt.registerLazySingleton<PostUploadRestaurantImageUseCase>(
-          () => PostUploadRestaurantImageUseCase(repository: getIt()));
+      () => PostUploadRestaurantImageUseCase(repository: getIt()));
   getIt.registerLazySingleton<GetMenuUseCase>(
       () => GetMenuUseCase(repository: getIt()));
   getIt.registerLazySingleton<PostUpdateRestaurantStatusUseCase>(
       () => PostUpdateRestaurantStatusUseCase(repository: getIt()));
   getIt.registerLazySingleton<DeleteMenuUseCase>(
       () => DeleteMenuUseCase(repository: getIt()));
+  getIt.registerLazySingleton<GetFollowerUseCase>(
+    () => GetFollowerUseCase(
+      repository: getIt(),
+    ),
+  );
 
   //Repository
   final authRepository = PhoneAuthRepository();
@@ -107,6 +119,12 @@ getItInit() async {
         getMenuMapper: getIt(),
         deleteMenuMapper: getIt(),
       ));
+  getIt.registerLazySingleton<FollowRepository>(
+    () => FollowRepositoryImpl(
+      remoteDataSource: getIt(),
+      followerMapper: getIt(),
+    ),
+  );
 
   // bloc
   getIt.registerLazySingleton<LoginBloc>(() => LoginBloc(
@@ -126,6 +144,9 @@ getItInit() async {
   getIt.registerLazySingleton<MenuRemoteDataSource>(
       () => MenuRemoteDataSourceImpl(menuService: menuService));
 
+  getIt.registerLazySingleton<FollowerRemoteDataSource>(
+      () => FollowerRemoteDataSourceImpl(followService: followService));
+
   // mapper
   getIt.registerLazySingleton<RestaurantsMapper>(() => RestaurantsMapper());
   getIt.registerLazySingleton<RestaurantMapper>(() => RestaurantMapper());
@@ -136,4 +157,5 @@ getItInit() async {
   getIt.registerLazySingleton<UpdateRestaurantStatusMapper>(
       () => UpdateRestaurantStatusMapper());
   getIt.registerLazySingleton<DeleteMenuMapper>(() => DeleteMenuMapper());
+  getIt.registerLazySingleton<GetFollowerMapper>(() => GetFollowerMapper());
 }

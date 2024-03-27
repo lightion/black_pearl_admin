@@ -168,6 +168,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           print("mobile exist");
           preference.writeSecureData(AppConstants.prefMobileNumber, event.mobileNumber);
           preference.writeSecureData(AppConstants.prefId, "${success.id}");
+          preference.writeSecureData(AppConstants.prefRestaurantName, "${success.name}");
           emit(LoginSuccessState());
         } else {
           emit(LoginRegistrationRequiredState());

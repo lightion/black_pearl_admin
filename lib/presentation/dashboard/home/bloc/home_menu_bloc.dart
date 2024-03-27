@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:core/constants/app_constants.dart';
 import 'package:core/enums/menu_type.dart';
 import 'package:core/localstorage/shared_preference_service.dart';
 import 'package:domain/entities/menu/add_menu_post_request.dart';
+import 'package:domain/usecases/follow/get_follower_usecase.dart';
 import 'package:domain/usecases/menu/post_add_menu_usecase.dart';
 import 'package:domain/usecases/post_upload_image_usecase.dart';
 import 'package:equatable/equatable.dart';
@@ -19,11 +21,13 @@ part 'home_menu_state.dart';
 class HomeMenuBloc extends Bloc<HomeMenuEvent, HomeMenuState> {
   final SharedPreferenceService preference;
   final PostAddMenuUseCase addMenuUseCase;
+  final GetFollowerUseCase followerUseCase;
   final PostUploadImageUseCase postUploadImageUseCase;
 
   HomeMenuBloc({
     required this.preference,
     required this.addMenuUseCase,
+    required this.followerUseCase,
     required this.postUploadImageUseCase,
   }) : super(HomeMenuInitial()) {
     on<HomeMenuLoadingEvent>((event, emit) => emit(HomeMenuLoading()));
@@ -74,6 +78,9 @@ class HomeMenuBloc extends Bloc<HomeMenuEvent, HomeMenuState> {
     print(
         "rest id: ${event.restId}, menuType: ${event.menuType.name} url: ${event.imageUrl}");
 
+    final restaurantName =
+        await preference.readSecureData(AppConstants.prefRestaurantName);
+
     final menuResponse = await addMenuUseCase.call(
       AddMenuPostRequest(
         menuImageURL: event.imageUrl,
@@ -81,16 +88,37 @@ class HomeMenuBloc extends Bloc<HomeMenuEvent, HomeMenuState> {
         restaurantId: event.restId,
       ),
     );
-    await menuResponse.fold(
-      (menuFailure) async { emit(HomeMenuErrorState(error: "Api Failed")); },
-      (menuSuccess) async {
-        await sendPushMessage(
-          "eIFad23vTLuzaFlZn2zb89:APA91bHcQkC_JgNWBDrc9eZono4hPj7VNjXGLjKgN1g0gWkUhaQV-p51kOmhrPa8_OCgpEtYHeysygnBfkpfiYeUiQgBQqiD_uUsTEnET_bWmd7CDUZS_WBHrq9aEH0JqCAH__arveM9",
-          "Teal Restaurant",
-          "New Menu Uploaded",
-        ).whenComplete(() => emit(HomeMenuImageUploadSuccessState()));
-      },
-    );
+    await menuResponse.fold((menuFailure) async {
+      emit(HomeMenuErrorState(error: "Api Failed"));
+    }, (menuSuccess) async {
+      await followerUseCase
+          .call(
+        event.restId,
+      )
+          .then((value) async {
+        await value.fold((l) async {
+          emit(HomeMenuErrorState(error: "Api Failed"));
+        }, (followerSuccess) async {
+          for (var element in followerSuccess) {
+            await sendPushMessage(
+              element.fCMToken ?? "",
+              restaurantName ?? "",
+              "New Menu Uploaded",
+            );
+          }
+        });
+      });
+    }).whenComplete(() => emit(HomeMenuImageUploadSuccessState()));
+    /* await sendPushMessage(
+      "eIFad23vTLuzaFlZn2zb89:APA91bHcQkC_JgNWBDrc9eZono4hPj7VNjXGLjKgN1g0gWkUhaQV-p51kOmhrPa8_OCgpEtYHeysygnBfkpfiYeUiQgBQqiD_uUsTEnET_bWmd7CDUZS_WBHrq9aEH0JqCAH__arveM9",
+      "Teal Restaurant",
+      "New Menu Uploaded",
+    ).whenComplete(() => emit(HomeMenuImageUploadSuccessState()));
+  }
+
+  ,
+
+  );*/
   }
 
   Future<void> sendPushMessage(

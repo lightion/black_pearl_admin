@@ -81,6 +81,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         sharedPreference.writeSecureData(AppConstants.prefId, success.id ?? "");
         sharedPreference.writeSecureData(
             AppConstants.prefMobileNumber, event.request.mobileNumber ?? "");
+        sharedPreference.writeSecureData(AppConstants.prefRestaurantName, "${event.request.name}");
         emit(RegisterSuccessfulState(
           id: success.id ?? "",
           mobileNumber: event.request.mobileNumber ?? "",

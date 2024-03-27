@@ -13,6 +13,7 @@ import 'package:core/widgets/app_bar_widget.dart';
 import 'package:core/widgets/loading_overlay_widget.dart';
 import 'package:core/widgets/outlined_button_widget.dart';
 import 'package:domain/entities/menu/add_menu_post_request.dart';
+import 'package:domain/usecases/follow/get_follower_usecase.dart';
 import 'package:domain/usecases/menu/post_add_menu_usecase.dart';
 import 'package:domain/usecases/post_upload_image_usecase.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,7 @@ class _HomeMenuScreenState extends State<HomeMenuScreen> {
   final bloc = HomeMenuBloc(
     preference: getIt<SharedPreferenceService>(),
     addMenuUseCase: getIt<PostAddMenuUseCase>(),
+    followerUseCase: getIt<GetFollowerUseCase>(),
     postUploadImageUseCase: getIt<PostUploadImageUseCase>(),
   );
 
